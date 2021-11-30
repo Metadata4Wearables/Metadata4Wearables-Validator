@@ -38,7 +38,6 @@ function App() {
   if (!formData) {
     return (
       <Form
-        liveValidate
         noHtml5Validate
         schema={schema}
         uiSchema={uiSchema}

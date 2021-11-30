@@ -15,28 +15,36 @@ const schema = {
 function App() {
   const [formData, setFormData] = React.useState();
 
-  const handleSubmit = ({formData}, e) => {
+  const handleSubmit = ({ formData }, e) => {
     setFormData(formData);
   };
 
   const handleError = (errors) => {};
 
   const outputUrl = () => {
-    const blob = new Blob([JSON.stringify(formData)], {type : 'application/json'});
+    const blob = new Blob([JSON.stringify(formData)], {
+      type: "application/json",
+    });
     return URL.createObjectURL(blob);
-  }
+  };
 
   if (!formData) {
-    return <Form
-      liveValidate
-      noHtml5Validate
-      schema={schema}
-      onSubmit={handleSubmit}
-      onError={handleError}
-    />;
+    return (
+      <Form
+        liveValidate
+        noHtml5Validate
+        schema={schema}
+        onSubmit={handleSubmit}
+        onError={handleError}
+      />
+    );
   } else {
-    return <a download={"study.json"} href={outputUrl()}>Download</a>;
-  };
+    return (
+      <a download={"study.json"} href={outputUrl()}>
+        Download
+      </a>
+    );
+  }
 }
 
 export default App;

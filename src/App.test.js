@@ -8,6 +8,10 @@ test("user can download after submitting a study with a valid name", async () =>
   render(<App />);
   const nameField = screen.getByLabelText(/name/);
   userEvent.type(nameField, "Study Name");
+
+  const clinicalTrial = screen.getByRole("radio", { name: /yes/i });
+  userEvent.click(clinicalTrial);
+
   const submitButton = screen.getByRole("button", { name: /submit/i });
   userEvent.click(submitButton);
 

@@ -8,8 +8,15 @@ const schema = {
   type: studySchema.type,
   properties: {
     name: studySchema.properties.name,
+    clinical_trial: studySchema.properties.clinical_trial,
   },
-  required: ["name"],
+  required: ["name", "clinical_trial"],
+};
+
+const uiSchema = {
+  clinical_trial: {
+    "ui:widget": "radio",
+  },
 };
 
 const objectUrl = (object) => {
@@ -34,6 +41,7 @@ function App() {
         liveValidate
         noHtml5Validate
         schema={schema}
+        uiSchema={uiSchema}
         onSubmit={handleSubmit}
         onError={handleError}
       />

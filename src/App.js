@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "@rjsf/core";
 import studySchema from "./study";
+import md5 from "md5";
 
 const schema = {
   title: studySchema.title,
@@ -8,6 +9,7 @@ const schema = {
   type: studySchema.type,
   properties: {
     name: studySchema.properties.name,
+    uuid: studySchema.properties.uuid,
     clinical_trial: studySchema.properties.clinical_trial,
     ethics_information: studySchema.properties.ethics_information,
     sample: studySchema.properties.sample,
@@ -28,6 +30,7 @@ const uiSchema = {
   clinical_trial: {
     "ui:widget": "radio",
   },
+  uuid: { "ui:readonly": true, "ui:widget": "hidden" },
 };
 
 const objectUrl = (object) => {
@@ -39,19 +42,30 @@ const objectUrl = (object) => {
 
 function App() {
   const [formData, setFormData] = React.useState();
+  const [submitted, setSubmitted] = React.useState(false);
 
   const handleSubmit = ({ formData }, e) => {
-    setFormData(formData);
+    setSubmitted(true);
   };
 
   const handleError = (errors) => {};
 
-  if (!formData) {
+  const handleChange = (event) => {
+    const formData = event.formData;
+    if (formData.name) {
+      formData.uuid = md5(formData.name);
+    }
+    setFormData(formData);
+  };
+
+  if (!submitted) {
     return (
       <Form
         noHtml5Validate
         schema={schema}
+        formData={formData}
         uiSchema={uiSchema}
+        onChange={handleChange}
         onSubmit={handleSubmit}
         onError={handleError}
       />

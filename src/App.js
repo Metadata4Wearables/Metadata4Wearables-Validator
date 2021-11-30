@@ -16,14 +16,7 @@ const schema = {
     description: studySchema.properties.description,
     keywords: studySchema.properties.keywords,
   },
-  required: [
-    "name",
-    "clinical_trial",
-    "ethics_information",
-    "sample",
-    "description",
-    "keywords",
-  ],
+  required: studySchema.required,
 };
 
 const uiSchema = {

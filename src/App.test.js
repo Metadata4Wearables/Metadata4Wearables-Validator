@@ -6,19 +6,19 @@ test("user can download after submitting a study with a valid name", async () =>
   global.URL.createObjectURL = jest.fn().mockReturnValue("https://example.com");
 
   render(<App />);
-  const nameField = screen.getByLabelText(/name/);
+  const nameField = screen.getByLabelText(/name/i);
   userEvent.type(nameField, "Study Name");
 
   const clinicalTrial = screen.getByRole("radio", { name: /yes/i });
   userEvent.click(clinicalTrial);
 
-  const ethicsInformation = screen.getByLabelText(/ethics_information/);
+  const ethicsInformation = screen.getByLabelText(/ethics information/i);
   userEvent.type(ethicsInformation, "Ethics Information");
 
-  const sample = screen.getByLabelText(/sample/);
+  const sample = screen.getByLabelText(/sample/i);
   userEvent.type(sample, "Sample");
 
-  const description = screen.getByLabelText(/description/);
+  const description = screen.getByLabelText(/description/i);
   userEvent.type(description, "Description");
 
   const keywordsGroup = screen.getByRole("group", { name: /keywords/i });

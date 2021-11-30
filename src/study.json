@@ -7,27 +7,32 @@
       "type": "object",
       "properties": {
         "name": {
+          "title": "Name",
           "description": "Name of group.",
           "example": "ACHM patients",
           "type": "string"
         },
         "description": {
+          "title": "Description",
           "description": "Description of sample group",
           "example": "",
           "type": "string"
         },
         "label": {
+          "title": "Label",
           "description": "Label of sample group",
           "example": 0,
           "type": "integer"
         },
         "group_size": {
+          "title": "Group size",
           "description": "Group size",
           "example": 6,
           "type": "integer",
           "minimum": 1
         },
         "inclusion_criteria": {
+          "title": "Inclusion criteria",
           "description": "Inclusion criteria for sample group, given as an array of strings",
           "example": "",
           "type": "array",
@@ -37,6 +42,7 @@
           }
         },
         "exclusion_criteria": {
+          "title": "Exclusion criteria",
           "description": "Exclusion criteria for sample group, given as an array of strings",
           "example": "",
           "type": "array",
@@ -53,41 +59,49 @@
   "type": "object",
   "properties": {
     "name": {
+      "title": "Name",
       "description": "Informative or internal study name",
       "example": "ACHM2019",
       "type": "string"
     },
     "uuid": {
+      "title": "UUID",
       "description": "Unique MD5 hash generated from the `name` field",
       "example": "01d429fd3c4cc02697eea7f3fe838c54",
       "type": "string"
     },
     "prereg_doi": {
+      "title": "Pre-registration document DOI",
       "description": "DOI (Digital Object Identifier) of pre-registration document describing data collection",
       "example": "",
       "type": "string"
     },
     "ethics_information": {
+      "title": "Ethics information",
       "description": "Name of ethics committee and approval number",
       "example": "",
       "type": "string"
     },
     "clinical_trial": {
+      "title": "Clinical trial",
       "description": "Is this a registered clinical trial?",
       "example": false,
       "type": "boolean"
     },
     "description": {
+      "title": "Description",
       "description": "Short narrative description of the study",
       "example": "",
       "type": "string"
     },
     "sample": {
+      "title": "Sample",
       "description": "Short description of the study sample.",
       "example": "Healthy control participants and ACHM patients",
       "type": "string"
     },
     "sample_groups": {
+      "title": "Sample groups",
       "description": "Description of the sample group(s) enrolled or examined in the study",
       "type": "array",
       "minItems": 2,
@@ -96,11 +110,13 @@
       }
     },
     "intervention": {
+      "title": "Intervention",
       "description": "Short description of the study intervention, if any",
       "example": "",
       "type": "string"
     },
     "keywords": {
+      "title": "Keywords",
       "description": "Key words describing the study.",
       "example": ["actigraphy", "congenital achromatopsia", "circadian"],
       "type": "array",
@@ -110,6 +126,7 @@
       }
     },
     "contributors": {
+      "title": "Contributors",
       "description": "Study contributors",
       "type": "array",
       "minItems": 1,
@@ -128,6 +145,7 @@
   "then": {
     "properties": {
       "clinical_trial_id": {
+        "title": "Clinical Trial ID",
         "description": "Clinical trial identifier as well as registry",
         "example": "",
         "type": "string"

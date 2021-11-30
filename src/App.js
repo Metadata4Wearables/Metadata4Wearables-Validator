@@ -63,6 +63,7 @@ function App() {
         onChange={handleChange}
         onSubmit={handleSubmit}
         onError={handleError}
+        showErrorList={false}
       />
     );
   } else {

@@ -12,6 +12,9 @@ test("user can download after submitting a study with a valid name", async () =>
   const clinicalTrial = screen.getByRole("radio", { name: /yes/i });
   userEvent.click(clinicalTrial);
 
+  const clinicalTrialID = await screen.findByLabelText(/clinical trial id/i);
+  userEvent.type(clinicalTrialID, "Clinical Trial ID");
+
   const ethicsInformation = screen.getByLabelText(/ethics information/i);
   userEvent.type(ethicsInformation, "Ethics Information");
 

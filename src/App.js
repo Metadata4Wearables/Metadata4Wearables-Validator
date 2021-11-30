@@ -16,10 +16,12 @@ const schema = {
     description: studySchema.properties.description,
     keywords: studySchema.properties.keywords,
   },
+  dependencies: studySchema.dependencies,
   required: studySchema.required,
 };
 
 const uiSchema = {
+  "ui:order": ["name", "clinical_trial", "clinical_trial_id", "*"],
   clinical_trial: {
     "ui:widget": "radio",
   },
@@ -45,9 +47,9 @@ function App() {
 
   const handleChange = (event) => {
     const formData = event.formData;
-    if (formData.name) {
-      formData.uuid = md5(formData.name);
-    }
+    if (formData.name) formData.uuid = md5(formData.name);
+    if (formData.clinical_trial === false) delete formData.clinical_trial_id;
+
     setFormData(formData);
   };
 

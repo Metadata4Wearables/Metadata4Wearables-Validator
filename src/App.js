@@ -12,6 +12,7 @@ const schema = {
     ethics_information: studySchema.properties.ethics_information,
     sample: studySchema.properties.sample,
     description: studySchema.properties.description,
+    keywords: studySchema.properties.keywords,
   },
   required: [
     "name",
@@ -19,6 +20,7 @@ const schema = {
     "ethics_information",
     "sample",
     "description",
+    "keywords",
   ],
 };
 

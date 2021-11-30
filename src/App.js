@@ -12,6 +12,13 @@ const schema = {
   required: ["name"],
 };
 
+const objectUrl = (object) => {
+  const blob = new Blob([JSON.stringify(object)], {
+    type: "application/json",
+  });
+  return URL.createObjectURL(blob);
+};
+
 function App() {
   const [formData, setFormData] = React.useState();
 
@@ -20,13 +27,6 @@ function App() {
   };
 
   const handleError = (errors) => {};
-
-  const outputUrl = () => {
-    const blob = new Blob([JSON.stringify(formData)], {
-      type: "application/json",
-    });
-    return URL.createObjectURL(blob);
-  };
 
   if (!formData) {
     return (
@@ -40,7 +40,7 @@ function App() {
     );
   } else {
     return (
-      <a download={"study.json"} href={outputUrl()}>
+      <a download={"study.json"} href={objectUrl(formData)}>
         Download
       </a>
     );

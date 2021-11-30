@@ -3,22 +3,11 @@ import Form from "@rjsf/core";
 import studySchema from "./study";
 import md5 from "md5";
 
-const schema = {
-  title: studySchema.title,
-  description: studySchema.description,
-  type: studySchema.type,
-  properties: {
-    name: studySchema.properties.name,
-    uuid: studySchema.properties.uuid,
-    clinical_trial: studySchema.properties.clinical_trial,
-    ethics_information: studySchema.properties.ethics_information,
-    sample: studySchema.properties.sample,
-    description: studySchema.properties.description,
-    keywords: studySchema.properties.keywords,
-  },
-  dependencies: studySchema.dependencies,
-  required: studySchema.required,
-};
+delete studySchema["$schema"];
+delete studySchema.properties.prereg_doi;
+delete studySchema.properties.sample_groups;
+delete studySchema.properties.intervention;
+delete studySchema.properties.contributors;
 
 const uiSchema = {
   "ui:order": ["name", "clinical_trial", "clinical_trial_id", "*"],
@@ -57,7 +46,7 @@ function App() {
     return (
       <Form
         noHtml5Validate
-        schema={schema}
+        schema={studySchema}
         formData={formData}
         uiSchema={uiSchema}
         onChange={handleChange}

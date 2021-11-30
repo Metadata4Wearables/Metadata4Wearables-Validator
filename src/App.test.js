@@ -18,6 +18,9 @@ test("user can download after submitting a study with a valid name", async () =>
   const sample = screen.getByLabelText(/sample/);
   userEvent.type(sample, "Sample");
 
+  const description = screen.getByLabelText(/description/);
+  userEvent.type(description, "Description");
+
   const submitButton = screen.getByRole("button", { name: /submit/i });
   userEvent.click(submitButton);
 

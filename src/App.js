@@ -11,8 +11,15 @@ const schema = {
     clinical_trial: studySchema.properties.clinical_trial,
     ethics_information: studySchema.properties.ethics_information,
     sample: studySchema.properties.sample,
+    description: studySchema.properties.description,
   },
-  required: ["name", "clinical_trial", "ethics_information", "sample"],
+  required: [
+    "name",
+    "clinical_trial",
+    "ethics_information",
+    "sample",
+    "description",
+  ],
 };
 
 const uiSchema = {

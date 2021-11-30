@@ -9,8 +9,9 @@ const schema = {
   properties: {
     name: studySchema.properties.name,
     clinical_trial: studySchema.properties.clinical_trial,
+    ethics_information: studySchema.properties.ethics_information,
   },
-  required: ["name", "clinical_trial"],
+  required: ["name", "clinical_trial", "ethics_information"],
 };
 
 const uiSchema = {

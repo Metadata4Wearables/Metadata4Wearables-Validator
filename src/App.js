@@ -19,8 +19,10 @@ const uiSchema = {
   uuid: { "ui:readonly": true, "ui:widget": "hidden" },
 };
 
+const objectToJson = (object) => JSON.stringify(object, null, 2);
+
 const objectUrl = (object) => {
-  const blob = new Blob([JSON.stringify(object)], {
+  const blob = new Blob([objectToJson(object)], {
     type: "application/json",
   });
   return URL.createObjectURL(blob);
@@ -78,7 +80,7 @@ function App() {
       const writeFileResponse = await repo.writeFile(
         "main",
         "study.json",
-        JSON.stringify(formData),
+        objectToJson(formData),
         "Save study.json"
       );
 

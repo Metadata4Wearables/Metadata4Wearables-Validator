@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "@rjsf/core";
 import GitHub from "github-api";
+import JSONPretty from "react-json-prettify";
 import netlify from "netlify-auth-providers";
 import studySchema from "./study";
 import md5 from "md5";
@@ -123,14 +124,17 @@ function App() {
     );
   } else {
     return (
-      <ul>
-        <li>
-          <a download={"study.json"} href={objectUrl(formData)}>
-            Download
-          </a>
-        </li>
-        <li>{saveToGitHubButton()}</li>
-      </ul>
+      <>
+        <JSONPretty json={formData} />
+        <ul>
+          <li>
+            <a download={"study.json"} href={objectUrl(formData)}>
+              Download
+            </a>
+          </li>
+          <li>{saveToGitHubButton()}</li>
+        </ul>
+      </>
     );
   }
 }

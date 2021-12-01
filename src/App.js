@@ -18,6 +18,7 @@ const uiSchema = {
     "ui:widget": "radio",
   },
   uuid: { "ui:readonly": true, "ui:widget": "hidden" },
+  keywords: { "ui:options": { orderable: false } },
 };
 
 const objectToJson = (object) => JSON.stringify(object, null, 2);

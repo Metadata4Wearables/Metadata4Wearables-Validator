@@ -1,5 +1,7 @@
 import React from "react";
 import Form from "@rjsf/core";
+import GitHub from "github-api";
+import netlify from "netlify-auth-providers";
 import studySchema from "./study";
 import md5 from "md5";
 
@@ -42,6 +44,52 @@ function App() {
     setFormData(formData);
   };
 
+  const handleAuth = (error, data) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(data);
+      // TODO: Should this be encrypted somehow?
+      localStorage.setItem("gh-token", data.token);
+      saveToGitHub();
+    }
+  };
+
+  const saveToGitHub = async () => {
+    const gitHubToken = localStorage.getItem("gh-token");
+    if (gitHubToken) {
+      const gitHub = new GitHub({ token: gitHubToken });
+      const ghUser = gitHub.getUser();
+      const userResponse = await ghUser.getProfile();
+      const ghUsername = userResponse.data.login;
+      const repoName = "dla-fair-data";
+
+      let repo = gitHub.getRepo(ghUsername, repoName);
+      try {
+        await repo.getDetails();
+      } catch (e) {
+        await ghUser.createRepo({ name: repoName, private: true });
+        repo = gitHub.getRepo(ghUsername, repoName);
+      }
+
+      await repo.writeFile(
+        "main",
+        "study.json",
+        JSON.stringify(formData),
+        "Save study.json"
+      );
+    } else {
+      const authenticator = new netlify({
+        site_id: "fceaa58e-7e67-43cc-9414-51b611c12820",
+      });
+
+      authenticator.authenticate(
+        { provider: "github", scope: "user:email, repo" },
+        handleAuth
+      );
+    }
+  };
+
   if (!submitted) {
     return (
       <Form
@@ -57,9 +105,16 @@ function App() {
     );
   } else {
     return (
-      <a download={"study.json"} href={objectUrl(formData)}>
-        Download
-      </a>
+      <ul>
+        <li>
+          <a download={"study.json"} href={objectUrl(formData)}>
+            Download
+          </a>
+        </li>
+        <li>
+          <button onClick={saveToGitHub}>Save to GitHub</button>
+        </li>
+      </ul>
     );
   }
 }

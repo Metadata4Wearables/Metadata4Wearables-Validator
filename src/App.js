@@ -29,6 +29,7 @@ const objectUrl = (object) => {
 function App() {
   const [formData, setFormData] = React.useState();
   const [submitted, setSubmitted] = React.useState(false);
+  const [githubUrl, setGithubUrl] = React.useState(null);
 
   const handleSubmit = ({ formData }, e) => {
     setSubmitted(true);
@@ -56,6 +57,8 @@ function App() {
   };
 
   const saveToGitHub = async () => {
+    setGithubUrl("saving");
+
     const gitHubToken = localStorage.getItem("gh-token");
     if (gitHubToken) {
       const gitHub = new GitHub({ token: gitHubToken });
@@ -72,12 +75,14 @@ function App() {
         repo = gitHub.getRepo(ghUsername, repoName);
       }
 
-      await repo.writeFile(
+      const writeFileResponse = await repo.writeFile(
         "main",
         "study.json",
         JSON.stringify(formData),
         "Save study.json"
       );
+
+      setGithubUrl(writeFileResponse.data.content.html_url);
     } else {
       const authenticator = new netlify({
         site_id: "fceaa58e-7e67-43cc-9414-51b611c12820",
@@ -87,6 +92,17 @@ function App() {
         { provider: "github", scope: "user:email, repo" },
         handleAuth
       );
+    }
+  };
+
+  const saveToGitHubButton = () => {
+    switch (githubUrl) {
+      case null:
+        return <button onClick={saveToGitHub}>Save to GitHub</button>;
+      case "saving":
+        return <p>Saving...</p>;
+      default:
+        return <a href={githubUrl}>View on GitHub</a>;
     }
   };
 
@@ -111,9 +127,7 @@ function App() {
             Download
           </a>
         </li>
-        <li>
-          <button onClick={saveToGitHub}>Save to GitHub</button>
-        </li>
+        <li>{saveToGitHubButton()}</li>
       </ul>
     );
   }

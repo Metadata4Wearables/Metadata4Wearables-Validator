@@ -5,13 +5,11 @@ import App from "./App";
 import Nav from "./Nav";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <div className="container">
-      <Nav />
-      <div className="container-fluid">
-        <App />
-      </div>
+  <div className="container">
+    <Nav />
+    <div className="container-fluid">
+      <App />
     </div>
-  </React.StrictMode>,
+  </div>,
   document.getElementById("root")
 );

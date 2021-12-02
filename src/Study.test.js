@@ -1,11 +1,11 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import App from "./App";
+import Study from "./Study";
 
 test("user can download after submitting a study with a valid name", async () => {
   global.URL.createObjectURL = jest.fn().mockReturnValue("https://example.com");
 
-  render(<App />);
+  render(<Study />);
   const nameField = screen.getByLabelText(/name/i);
   userEvent.type(nameField, "Study Name");
 

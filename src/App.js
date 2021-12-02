@@ -58,8 +58,6 @@ function App() {
     if (error) {
       console.log(error);
     } else {
-      console.log(data);
-      // TODO: Should this be encrypted somehow?
       localStorage.setItem("gh-token", data.token);
       callback();
     }

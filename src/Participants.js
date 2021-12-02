@@ -23,7 +23,9 @@ const repoName = "dla-fair-data";
 const branchName = "main";
 const participantsPath = "participants.json";
 
-const uiSchema = {};
+const uiSchema = {
+  "ui:options": { orderable: false },
+};
 
 const objectToJson = (object) => JSON.stringify(object, null, 2);
 

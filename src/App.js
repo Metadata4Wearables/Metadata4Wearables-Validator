@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Nav from "./Nav";
+import Project from "./Project";
 import Study from "./Study";
 import Participants from "./Participants";
 import React from "react";
@@ -20,6 +21,7 @@ const App = () => {
         <Nav />
         <div className="container-fluid">
           <Routes>
+            <Route path="/" element={<Project project={project} />} />
             <Route
               path="/study"
               element={

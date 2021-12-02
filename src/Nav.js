@@ -1,13 +1,13 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Nav() {
   return (
     <nav className="navbar navbar-default">
       <div className="container-fluid">
         <div className="navbar-header">
-          <a className="navbar-brand" href="/">
-            Project name
-          </a>
+          <Link to="/" className="navbar-brand">
+            Project
+          </Link>
         </div>
         <div id="navbar">
           <ul className="nav navbar-nav">

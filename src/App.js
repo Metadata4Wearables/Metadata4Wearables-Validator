@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Nav from "./Nav";
 import Study from "./Study";
-import Participant from "./Participant";
+import Participants from "./Participants";
 
 const App = () => (
   <div className="container">
@@ -10,7 +10,7 @@ const App = () => (
       <div className="container-fluid">
         <Routes>
           <Route path="/study" element={<Study />} />
-          <Route path="/participant" element={<Participant />} />
+          <Route path="/participants" element={<Participants />} />
         </Routes>
       </div>
     </Router>

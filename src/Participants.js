@@ -24,7 +24,7 @@ const objectUrl = (object) => {
   return URL.createObjectURL(blob);
 };
 
-function Participant() {
+function Participants() {
   const [githubMessage, setGithubMessage] = React.useState();
   const [formData, setFormData] = React.useState();
   const [submitted, setSubmitted] = React.useState(false);
@@ -165,4 +165,4 @@ function Participant() {
   }
 }
 
-export default Participant;
+export default Participants;

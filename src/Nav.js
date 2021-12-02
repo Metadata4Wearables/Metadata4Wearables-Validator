@@ -15,7 +15,7 @@ function Nav() {
               <NavLink to="/study">Study</NavLink>
             </li>
             <li>
-              <NavLink to="/participant">Participant</NavLink>
+              <NavLink to="/participants">Participants</NavLink>
             </li>
           </ul>
         </div>

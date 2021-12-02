@@ -17,7 +17,8 @@ const objectUrl = (object) => {
   return URL.createObjectURL(blob);
 };
 
-const Project = ({ project }) => {
+const Project = ({ project, onLoad }) => {
+  const [githubMessage, setGithubMessage] = React.useState();
   const [githubUrl, setGithubUrl] = React.useState(null);
 
   const createHandleAuth = (callback) => (error, data) => {
@@ -64,6 +65,41 @@ const Project = ({ project }) => {
     }
   };
 
+  const handleLoadFromGithub = async () => {
+    const gitHubToken = localStorage.getItem("gh-token");
+    if (gitHubToken) {
+      const gitHub = new GitHub({ token: gitHubToken });
+      const ghUser = gitHub.getUser();
+      const userResponse = await ghUser.getProfile();
+      const ghUsername = userResponse.data.login;
+
+      let repo = gitHub.getRepo(ghUsername, repoName);
+      try {
+        await repo.getDetails();
+        try {
+          const contentsResponse = await repo.getContents(
+            branchName,
+            projectPath,
+            true
+          );
+          onLoad(contentsResponse.data);
+        } catch (e) {
+          setGithubMessage(
+            `${projectPath} file not found in GitHub repo: ${repoName}`
+          );
+        }
+      } catch (e) {
+        setGithubMessage(`GitHub repo not found: ${repoName}`);
+      }
+    } else {
+      const authenticator = new netlify({ site_id: siteId });
+      authenticator.authenticate(
+        { provider: "github", scope: "user:email, repo" },
+        createHandleAuth(handleLoadFromGithub)
+      );
+    }
+  };
+
   const saveToGitHubButton = () => {
     switch (githubUrl) {
       case null:
@@ -79,6 +115,10 @@ const Project = ({ project }) => {
     <>
       <JSONPretty json={project} />
       <ul>
+        <li>
+          <button onClick={handleLoadFromGithub}>Load from GitHub</button>
+          <p>{githubMessage}</p>
+        </li>
         <li>
           <a download={projectPath} href={objectUrl(project)}>
             Download

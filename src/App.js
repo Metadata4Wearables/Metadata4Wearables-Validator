@@ -8,9 +8,14 @@ import React from "react";
 const App = () => {
   const [project, setProject] = React.useState({ study: { participants: [] } });
 
+  const handleProjectLoad = (project) => {
+    setProject(project);
+  };
+
   const handleSubmitStudy = (study) => {
     setProject({ ...project, study });
   };
+
   const handleSubmitParticipants = (participants) => {
     setProject({ ...project, study: { ...project.study, participants } });
   };
@@ -21,7 +26,10 @@ const App = () => {
         <Nav />
         <div className="container-fluid">
           <Routes>
-            <Route path="/" element={<Project project={project} />} />
+            <Route
+              path="/"
+              element={<Project project={project} onLoad={handleProjectLoad} />}
+            />
             <Route
               path="/study"
               element={<Study project={project} onSubmit={handleSubmitStudy} />}

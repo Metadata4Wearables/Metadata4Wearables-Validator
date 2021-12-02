@@ -13,6 +13,7 @@ delete studySchema.properties.intervention;
 delete studySchema.properties.contributors;
 
 const siteId = "fceaa58e-7e67-43cc-9414-51b611c12820";
+const repoName = "dla-fair-data";
 const studyPath = "study.json";
 
 const uiSchema = {
@@ -73,7 +74,6 @@ function App() {
       const ghUser = gitHub.getUser();
       const userResponse = await ghUser.getProfile();
       const ghUsername = userResponse.data.login;
-      const repoName = "dla-fair-data";
 
       let repo = gitHub.getRepo(ghUsername, repoName);
       try {
@@ -118,7 +118,6 @@ function App() {
       const ghUser = gitHub.getUser();
       const userResponse = await ghUser.getProfile();
       const ghUsername = userResponse.data.login;
-      const repoName = "dla-fair-data";
 
       let repo = gitHub.getRepo(ghUsername, repoName);
       try {

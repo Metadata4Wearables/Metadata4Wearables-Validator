@@ -25,6 +25,7 @@ const participantsPath = "participants.json";
 
 const uiSchema = {
   "ui:options": { orderable: false },
+  items: { phenotypes: { "ui:options": { orderable: false } } },
 };
 
 const objectToJson = (object) => JSON.stringify(object, null, 2);

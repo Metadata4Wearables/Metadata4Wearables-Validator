@@ -13,6 +13,7 @@ delete studySchema.properties.intervention;
 delete studySchema.properties.contributors;
 
 const siteId = "fceaa58e-7e67-43cc-9414-51b611c12820";
+const studyPath = "study.json";
 
 const uiSchema = {
   "ui:order": ["name", "clinical_trial", "clinical_trial_id", "*"],
@@ -84,9 +85,9 @@ function App() {
 
       const writeFileResponse = await repo.writeFile(
         "main",
-        "study.json",
+        studyPath,
         objectToJson(formData),
-        "Save study.json"
+        `Save ${studyPath}`
       );
 
       setGithubUrl(writeFileResponse.data.content.html_url);
@@ -125,13 +126,13 @@ function App() {
         try {
           const contentsResponse = await repo.getContents(
             "main",
-            "study.json",
+            studyPath,
             true
           );
           setFormData(contentsResponse.data);
         } catch (e) {
           setGithubMessage(
-            `study.json file not found in GitHub repo: ${repoName}`
+            `${studyPath} file not found in GitHub repo: ${repoName}`
           );
         }
       } catch (e) {
@@ -169,7 +170,7 @@ function App() {
         <JSONPretty json={formData} />
         <ul>
           <li>
-            <a download={"study.json"} href={objectUrl(formData)}>
+            <a download={studyPath} href={objectUrl(formData)}>
               Download
             </a>
           </li>

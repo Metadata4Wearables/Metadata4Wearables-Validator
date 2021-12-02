@@ -14,6 +14,7 @@ delete studySchema.properties.contributors;
 
 const siteId = "fceaa58e-7e67-43cc-9414-51b611c12820";
 const repoName = "dla-fair-data";
+const branchName = "main";
 const studyPath = "study.json";
 
 const uiSchema = {
@@ -82,7 +83,7 @@ function App() {
       }
 
       const writeFileResponse = await repo.writeFile(
-        "main",
+        branchName,
         studyPath,
         objectToJson(formData),
         `Save ${studyPath}`
@@ -122,7 +123,7 @@ function App() {
         await repo.getDetails();
         try {
           const contentsResponse = await repo.getContents(
-            "main",
+            branchName,
             studyPath,
             true
           );

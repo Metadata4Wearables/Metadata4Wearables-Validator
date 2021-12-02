@@ -107,7 +107,11 @@ const Project = ({ project, onLoad }) => {
       case "saving":
         return <p>Saving...</p>;
       default:
-        return <a href={githubUrl}>View on GitHub</a>;
+        return (
+          <a href={githubUrl} target="_blank" rel="noreferrer">
+            View on GitHub
+          </a>
+        );
     }
   };
 

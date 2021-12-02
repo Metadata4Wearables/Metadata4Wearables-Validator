@@ -12,6 +12,8 @@ delete studySchema.properties.sample_groups;
 delete studySchema.properties.intervention;
 delete studySchema.properties.contributors;
 
+const siteId = "fceaa58e-7e67-43cc-9414-51b611c12820";
+
 const uiSchema = {
   "ui:order": ["name", "clinical_trial", "clinical_trial_id", "*"],
   clinical_trial: {
@@ -31,6 +33,7 @@ const objectUrl = (object) => {
 };
 
 function App() {
+  const [githubMessage, setGithubMessage] = React.useState();
   const [formData, setFormData] = React.useState();
   const [submitted, setSubmitted] = React.useState(false);
   const [githubUrl, setGithubUrl] = React.useState(null);
@@ -49,14 +52,14 @@ function App() {
     setFormData(formData);
   };
 
-  const handleAuth = (error, data) => {
+  const createHandleAuth = (callback) => (error, data) => {
     if (error) {
       console.log(error);
     } else {
       console.log(data);
       // TODO: Should this be encrypted somehow?
       localStorage.setItem("gh-token", data.token);
-      saveToGitHub();
+      callback();
     }
   };
 
@@ -88,13 +91,10 @@ function App() {
 
       setGithubUrl(writeFileResponse.data.content.html_url);
     } else {
-      const authenticator = new netlify({
-        site_id: "fceaa58e-7e67-43cc-9414-51b611c12820",
-      });
-
+      const authenticator = new netlify({ site_id: siteId });
       authenticator.authenticate(
         { provider: "github", scope: "user:email, repo" },
-        handleAuth
+        createHandleAuth(saveToGitHub)
       );
     }
   };
@@ -110,18 +110,58 @@ function App() {
     }
   };
 
+  const handleLoadFromGithub = async () => {
+    const gitHubToken = localStorage.getItem("gh-token");
+    if (gitHubToken) {
+      const gitHub = new GitHub({ token: gitHubToken });
+      const ghUser = gitHub.getUser();
+      const userResponse = await ghUser.getProfile();
+      const ghUsername = userResponse.data.login;
+      const repoName = "dla-fair-data";
+
+      let repo = gitHub.getRepo(ghUsername, repoName);
+      try {
+        await repo.getDetails();
+        try {
+          const contentsResponse = await repo.getContents(
+            "main",
+            "study.json",
+            true
+          );
+          setFormData(contentsResponse.data);
+        } catch (e) {
+          setGithubMessage(
+            `study.json file not found in GitHub repo: ${repoName}`
+          );
+        }
+      } catch (e) {
+        setGithubMessage(`GitHub repo not found: ${repoName}`);
+      }
+    } else {
+      const authenticator = new netlify({ site_id: siteId });
+      authenticator.authenticate(
+        { provider: "github", scope: "user:email, repo" },
+        createHandleAuth(handleLoadFromGithub)
+      );
+    }
+  };
+
   if (!submitted) {
     return (
-      <Form
-        noHtml5Validate
-        schema={studySchema}
-        formData={formData}
-        uiSchema={uiSchema}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        onError={handleError}
-        showErrorList={false}
-      />
+      <>
+        <button onClick={handleLoadFromGithub}>Load from GitHub</button>
+        <p>{githubMessage}</p>
+        <Form
+          noHtml5Validate
+          schema={studySchema}
+          formData={formData}
+          uiSchema={uiSchema}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          onError={handleError}
+          showErrorList={false}
+        />
+      </>
     );
   } else {
     return (

@@ -6,12 +6,22 @@ import netlify from "netlify-auth-providers";
 import participantSchema from "./schema/participant.json";
 
 delete participantSchema["$schema"];
-delete participantSchema.properties.uuid;
+
+const participantsSchema = {
+  definitions: {
+    participant: participantSchema,
+    phenotype: participantSchema.definitions.phenotype,
+  },
+  type: "array",
+  items: {
+    $ref: "#/definitions/participant",
+  },
+};
 
 const siteId = "fceaa58e-7e67-43cc-9414-51b611c12820";
 const repoName = "dla-fair-data";
 const branchName = "main";
-const participantPath = "participant.json";
+const participantsPath = "participants.json";
 
 const uiSchema = {};
 
@@ -70,9 +80,9 @@ function Participants() {
 
       const writeFileResponse = await repo.writeFile(
         branchName,
-        participantPath,
+        participantsPath,
         objectToJson(formData),
-        `Save ${participantPath}`
+        `Save ${participantsPath}`
       );
 
       setGithubUrl(writeFileResponse.data.content.html_url);
@@ -110,13 +120,13 @@ function Participants() {
         try {
           const contentsResponse = await repo.getContents(
             branchName,
-            participantPath,
+            participantsPath,
             true
           );
           setFormData(contentsResponse.data);
         } catch (e) {
           setGithubMessage(
-            `${participantPath} file not found in GitHub repo: ${repoName}`
+            `${participantsPath} file not found in GitHub repo: ${repoName}`
           );
         }
       } catch (e) {
@@ -138,7 +148,7 @@ function Participants() {
         <p>{githubMessage}</p>
         <Form
           noHtml5Validate
-          schema={participantSchema}
+          schema={participantsSchema}
           formData={formData}
           uiSchema={uiSchema}
           onChange={handleChange}
@@ -154,7 +164,7 @@ function Participants() {
         <JSONPretty json={formData} />
         <ul>
           <li>
-            <a download={participantPath} href={objectUrl(formData)}>
+            <a download={participantsPath} href={objectUrl(formData)}>
               Download
             </a>
           </li>

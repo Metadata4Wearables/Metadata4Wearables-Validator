@@ -35,14 +35,15 @@ const objectUrl = (object) => {
   return URL.createObjectURL(blob);
 };
 
-function Study() {
+function Study({ study, onSubmit }) {
   const [githubMessage, setGithubMessage] = React.useState();
-  const [formData, setFormData] = React.useState();
+  const [formData, setFormData] = React.useState(study);
   const [submitted, setSubmitted] = React.useState(false);
   const [githubUrl, setGithubUrl] = React.useState(null);
 
   const handleSubmit = ({ formData }, e) => {
     setSubmitted(true);
+    onSubmit(formData);
   };
 
   const handleError = (errors) => {};

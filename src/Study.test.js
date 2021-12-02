@@ -5,7 +5,7 @@ import Study from "./Study";
 test("user can download after submitting a study with a valid name", async () => {
   global.URL.createObjectURL = jest.fn().mockReturnValue("https://example.com");
 
-  render(<Study />);
+  render(<Study study={{}} onSubmit={() => {}} />);
   const nameField = screen.getByLabelText(/name/i);
   userEvent.type(nameField, "Study Name");
 

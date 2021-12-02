@@ -1,11 +1,15 @@
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Study from "./Study";
+import App from "./App";
 
 test("user can download after submitting a study with a valid name", async () => {
   global.URL.createObjectURL = jest.fn().mockReturnValue("https://example.com");
 
-  render(<Study study={{}} onSubmit={() => {}} />);
+  render(<App />);
+
+  const studyLink = screen.getByRole("link", { name: /study/i });
+  userEvent.click(studyLink);
+
   const nameField = screen.getByLabelText(/name/i);
   userEvent.type(nameField, "Study Name");
 

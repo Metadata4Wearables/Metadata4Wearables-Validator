@@ -1,7 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
 import GitHub from "github-api";
-import JSONPretty from "react-json-prettify";
 import netlify from "netlify-auth-providers";
 import participantSchema from "./schema/participant.json";
 
@@ -21,31 +21,21 @@ const participantsSchema = {
 const siteId = "fceaa58e-7e67-43cc-9414-51b611c12820";
 const repoName = "dla-fair-data";
 const branchName = "main";
-const participantsPath = "participants.json";
+const projectPath = "project.json";
 
 const uiSchema = {
   "ui:options": { orderable: false },
   items: { phenotypes: { "ui:options": { orderable: false } } },
 };
 
-const objectToJson = (object) => JSON.stringify(object, null, 2);
-
-const objectUrl = (object) => {
-  const blob = new Blob([objectToJson(object)], {
-    type: "application/json",
-  });
-  return URL.createObjectURL(blob);
-};
-
-function Participants({ participants, onSubmit }) {
+function Participants({ project, onSubmit }) {
   const [githubMessage, setGithubMessage] = React.useState();
-  const [formData, setFormData] = React.useState(participants);
-  const [submitted, setSubmitted] = React.useState(false);
-  const [githubUrl, setGithubUrl] = React.useState(null);
+  const [formData, setFormData] = React.useState(project.study.participants);
+  const navigate = useNavigate();
 
   const handleSubmit = ({ formData }, e) => {
-    setSubmitted(true);
     onSubmit(formData);
+    navigate("/");
   };
 
   const handleError = (errors) => {};
@@ -64,52 +54,6 @@ function Participants({ participants, onSubmit }) {
     }
   };
 
-  const saveToGitHub = async () => {
-    setGithubUrl("saving");
-
-    const gitHubToken = localStorage.getItem("gh-token");
-    if (gitHubToken) {
-      const gitHub = new GitHub({ token: gitHubToken });
-      const ghUser = gitHub.getUser();
-      const userResponse = await ghUser.getProfile();
-      const ghUsername = userResponse.data.login;
-
-      let repo = gitHub.getRepo(ghUsername, repoName);
-      try {
-        await repo.getDetails();
-      } catch (e) {
-        await ghUser.createRepo({ name: repoName, private: true });
-        repo = gitHub.getRepo(ghUsername, repoName);
-      }
-
-      const writeFileResponse = await repo.writeFile(
-        branchName,
-        participantsPath,
-        objectToJson(formData),
-        `Save ${participantsPath}`
-      );
-
-      setGithubUrl(writeFileResponse.data.content.html_url);
-    } else {
-      const authenticator = new netlify({ site_id: siteId });
-      authenticator.authenticate(
-        { provider: "github", scope: "user:email, repo" },
-        createHandleAuth(saveToGitHub)
-      );
-    }
-  };
-
-  const saveToGitHubButton = () => {
-    switch (githubUrl) {
-      case null:
-        return <button onClick={saveToGitHub}>Save to GitHub</button>;
-      case "saving":
-        return <p>Saving...</p>;
-      default:
-        return <a href={githubUrl}>View on GitHub</a>;
-    }
-  };
-
   const handleLoadFromGithub = async () => {
     const gitHubToken = localStorage.getItem("gh-token");
     if (gitHubToken) {
@@ -124,13 +68,13 @@ function Participants({ participants, onSubmit }) {
         try {
           const contentsResponse = await repo.getContents(
             branchName,
-            participantsPath,
+            projectPath,
             true
           );
-          setFormData(contentsResponse.data);
+          setFormData(contentsResponse.data.study.participants);
         } catch (e) {
           setGithubMessage(
-            `${participantsPath} file not found in GitHub repo: ${repoName}`
+            `${projectPath} file not found in GitHub repo: ${repoName}`
           );
         }
       } catch (e) {
@@ -145,38 +89,22 @@ function Participants({ participants, onSubmit }) {
     }
   };
 
-  if (!submitted) {
-    return (
-      <>
-        <button onClick={handleLoadFromGithub}>Load from GitHub</button>
-        <p>{githubMessage}</p>
-        <Form
-          noHtml5Validate
-          schema={participantsSchema}
-          formData={formData}
-          uiSchema={uiSchema}
-          onChange={handleChange}
-          onSubmit={handleSubmit}
-          onError={handleError}
-          showErrorList={false}
-        />
-      </>
-    );
-  } else {
-    return (
-      <>
-        <JSONPretty json={formData} />
-        <ul>
-          <li>
-            <a download={participantsPath} href={objectUrl(formData)}>
-              Download
-            </a>
-          </li>
-          <li>{saveToGitHubButton()}</li>
-        </ul>
-      </>
-    );
-  }
+  return (
+    <>
+      <button onClick={handleLoadFromGithub}>Load from GitHub</button>
+      <p>{githubMessage}</p>
+      <Form
+        noHtml5Validate
+        schema={participantsSchema}
+        formData={formData}
+        uiSchema={uiSchema}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onError={handleError}
+        showErrorList={false}
+      />
+    </>
+  );
 }
 
 export default Participants;

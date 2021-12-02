@@ -24,15 +24,13 @@ const App = () => {
             <Route path="/" element={<Project project={project} />} />
             <Route
               path="/study"
-              element={
-                <Study study={project.study} onSubmit={handleSubmitStudy} />
-              }
+              element={<Study project={project} onSubmit={handleSubmitStudy} />}
             />
             <Route
               path="/participants"
               element={
                 <Participants
-                  participants={project.study.participants}
+                  project={project}
                   onSubmit={handleSubmitParticipants}
                 />
               }

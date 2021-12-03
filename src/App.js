@@ -3,6 +3,7 @@ import Nav from "./Nav";
 import Project from "./Project";
 import Study from "./Study";
 import Participants from "./Participants";
+import Events from "./Events";
 import React from "react";
 
 const App = () => {
@@ -18,6 +19,22 @@ const App = () => {
 
   const handleSubmitParticipants = (participants) => {
     setProject({ ...project, study: { ...project.study, participants } });
+  };
+
+  const handleSubmitEvents = (index, events) => {
+    setProject({
+      ...project,
+      study: {
+        ...project.study,
+        participants: [
+          ...project.study.participants.slice(0, index),
+          Object.assign({}, project.study.participants[index], {
+            events: events,
+          }),
+          ...project.study.participants.slice(index + 1),
+        ],
+      },
+    });
   };
 
   return (
@@ -41,6 +58,12 @@ const App = () => {
                   project={project}
                   onSubmit={handleSubmitParticipants}
                 />
+              }
+            />
+            <Route
+              path="/participants/:id/events"
+              element={
+                <Events project={project} onSubmit={handleSubmitEvents} />
               }
             />
           </Routes>

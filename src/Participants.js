@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
 import participantSchema from "./schema/participant.json";
+import { Link } from "react-router-dom";
 
 delete participantSchema["$schema"];
 
@@ -38,16 +39,27 @@ function Participants({ project, onSubmit }) {
   };
 
   return (
-    <Form
-      noHtml5Validate
-      schema={participantsSchema}
-      formData={formData}
-      uiSchema={uiSchema}
-      onChange={handleChange}
-      onSubmit={handleSubmit}
-      onError={handleError}
-      showErrorList={false}
-    />
+    <>
+      <ul>
+        {project.study.participants.map((participant, index) => (
+          <li key={index}>
+            <Link to={`/participants/${index}/events`}>
+              Participant {index} events
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <Form
+        noHtml5Validate
+        schema={participantsSchema}
+        formData={formData}
+        uiSchema={uiSchema}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onError={handleError}
+        showErrorList={false}
+      />
+    </>
   );
 }
 

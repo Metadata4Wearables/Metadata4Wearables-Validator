@@ -1,11 +1,10 @@
 import React from "react";
 import JSONPretty from "react-json-prettify";
-import GitHub from "github-api";
+import { Octokit } from "@octokit/rest";
 import netlify from "netlify-auth-providers";
 
 const siteId = "fceaa58e-7e67-43cc-9414-51b611c12820";
 const repoName = "dla-fair-data";
-const branchName = "main";
 const projectPath = "project.json";
 
 const objectToJson = (object) => JSON.stringify(object, null, 2);
@@ -35,27 +34,43 @@ const Project = ({ project, onLoad }) => {
 
     const gitHubToken = localStorage.getItem("gh-token");
     if (gitHubToken) {
-      const gitHub = new GitHub({ token: gitHubToken });
-      const ghUser = gitHub.getUser();
-      const userResponse = await ghUser.getProfile();
-      const ghUsername = userResponse.data.login;
+      const octokit = new Octokit({ auth: gitHubToken });
+      const ghUser = await octokit.request("GET /user");
+      const ghUsername = ghUser.data.login;
 
-      let repo = gitHub.getRepo(ghUsername, repoName);
       try {
-        await repo.getDetails();
+        await octokit.request("GET /repos/{owner}/{repo}", {
+          owner: ghUsername,
+          repo: repoName,
+        });
       } catch (e) {
-        await ghUser.createRepo({ name: repoName, private: true });
-        repo = gitHub.getRepo(ghUsername, repoName);
+        await octokit.request("POST /user/repos", {
+          name: repoName,
+          private: true,
+        });
       }
 
-      const writeFileResponse = await repo.writeFile(
-        branchName,
-        projectPath,
-        objectToJson(project),
-        `Save ${projectPath}`
+      const projectResponse = await octokit.request(
+        "GET /repos/{owner}/{repo}/contents/{path}",
+        {
+          owner: ghUsername,
+          repo: repoName,
+          path: projectPath,
+        }
       );
-
-      setGithubUrl(writeFileResponse.data.content.html_url);
+      const sha = projectResponse.data.sha;
+      const response = await octokit.request(
+        "PUT /repos/{owner}/{repo}/contents/{path}",
+        {
+          owner: ghUsername,
+          repo: repoName,
+          path: projectPath,
+          message: `Save ${projectPath}`,
+          content: btoa(objectToJson(project)),
+          sha: sha,
+        }
+      );
+      setGithubUrl(response.data.content.html_url);
     } else {
       const authenticator = new netlify({ site_id: siteId });
       authenticator.authenticate(
@@ -68,21 +83,26 @@ const Project = ({ project, onLoad }) => {
   const handleLoadFromGithub = async () => {
     const gitHubToken = localStorage.getItem("gh-token");
     if (gitHubToken) {
-      const gitHub = new GitHub({ token: gitHubToken });
-      const ghUser = gitHub.getUser();
-      const userResponse = await ghUser.getProfile();
-      const ghUsername = userResponse.data.login;
+      const octokit = new Octokit({ auth: gitHubToken });
+      const ghUser = await octokit.request("GET /user");
+      const ghUsername = ghUser.data.login;
 
-      let repo = gitHub.getRepo(ghUsername, repoName);
       try {
-        await repo.getDetails();
+        await octokit.request("GET /repos/{owner}/{repo}", {
+          owner: ghUsername,
+          repo: repoName,
+        });
         try {
-          const contentsResponse = await repo.getContents(
-            branchName,
-            projectPath,
-            true
+          const projectResponse = await octokit.request(
+            "GET /repos/{owner}/{repo}/contents/{path}",
+            {
+              owner: ghUsername,
+              repo: repoName,
+              path: projectPath,
+            }
           );
-          onLoad(contentsResponse.data);
+          const project = JSON.parse(atob(projectResponse.data.content));
+          onLoad(project);
         } catch (e) {
           setGithubMessage(
             `${projectPath} file not found in GitHub repo: ${repoName}`

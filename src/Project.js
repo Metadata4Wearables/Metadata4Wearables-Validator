@@ -103,7 +103,19 @@ const Project = ({ project, onLoad }) => {
   const saveToGitHubButton = () => {
     switch (githubUrl) {
       case null:
-        return <button onClick={saveToGitHub}>Save to GitHub</button>;
+        return (
+          <button
+            type="button"
+            className="btn btn-default"
+            onClick={saveToGitHub}
+          >
+            <span
+              className="glyphicon glyphicon-upload"
+              aria-hidden="true"
+            ></span>{" "}
+            Save to GitHub
+          </button>
+        );
       case "saving":
         return <p>Saving...</p>;
       default:
@@ -120,7 +132,17 @@ const Project = ({ project, onLoad }) => {
       <JSONPretty json={project} />
       <ul>
         <li>
-          <button onClick={handleLoadFromGithub}>Load from GitHub</button>
+          <button
+            type="button"
+            className="btn btn-default"
+            onClick={handleLoadFromGithub}
+          >
+            <span
+              className="glyphicon glyphicon-download"
+              aria-hidden="true"
+            ></span>{" "}
+            Load from GitHub
+          </button>
           <p>{githubMessage}</p>
         </li>
         <li>

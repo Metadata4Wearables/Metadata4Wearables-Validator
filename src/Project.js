@@ -153,6 +153,9 @@ const Project = ({ project, onLoad }) => {
         </button>{" "}
         {saveToGitHubButton()}
       </div>
+      <div className="row">
+        <p className="text-warning">{githubMessage}</p>
+      </div>
     </>
   );
 };

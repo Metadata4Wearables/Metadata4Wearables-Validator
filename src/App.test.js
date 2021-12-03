@@ -37,6 +37,6 @@ test("user can download after submitting a study with a valid name", async () =>
   const submitButton = screen.getByRole("button", { name: /submit/i });
   userEvent.click(submitButton);
 
-  const downloadLink = await screen.findByRole("link", { name: "Download" });
+  const downloadLink = await screen.findByRole("link", { name: /download/i });
   expect(downloadLink).toBeInTheDocument();
 });

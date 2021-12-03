@@ -129,29 +129,30 @@ const Project = ({ project, onLoad }) => {
 
   return (
     <>
-      <JSONPretty json={project} />
-      <ul>
-        <li>
-          <button
-            type="button"
-            className="btn btn-default"
-            onClick={handleLoadFromGithub}
-          >
-            <span
-              className="glyphicon glyphicon-download"
-              aria-hidden="true"
-            ></span>{" "}
-            Load from GitHub
-          </button>
-          <p>{githubMessage}</p>
-        </li>
-        <li>
+      <div className="row">
+        <JSONPretty json={project} />
+      </div>
+      <div className="row">
+        <p className="text-right">
           <a download={projectPath} href={objectUrl(project)}>
-            Download
+            Download JSON
           </a>
-        </li>
-        <li>{saveToGitHubButton()}</li>
-      </ul>
+        </p>
+      </div>
+      <div className="row">
+        <button
+          type="button"
+          className="btn btn-default"
+          onClick={handleLoadFromGithub}
+        >
+          <span
+            className="glyphicon glyphicon-download"
+            aria-hidden="true"
+          ></span>{" "}
+          Load from GitHub
+        </button>{" "}
+        {saveToGitHubButton()}
+      </div>
     </>
   );
 };

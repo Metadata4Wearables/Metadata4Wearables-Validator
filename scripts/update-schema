@@ -1,9 +1,10 @@
 #! /bin/bash
 
+timestamp=$(date +%s)
 schema=(event participant study)
 for i in ${schema[@]} ; do
   echo "Updating $i.json"
-  curl --silent "https://raw.githubusercontent.com/cdsig/CDSIG-Schema/freerange-updates/$i.json" > src/schema/$i.json
+  curl --silent "https://raw.githubusercontent.com/cdsig/CDSIG-Schema/freerange-updates/$i.json?$timestamp" > src/schema/$i.json
 done
 
 npx prettier -w src/schema/*.json

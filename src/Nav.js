@@ -18,8 +18,11 @@ function Nav() {
               <NavLink to="/participants">Participants</NavLink>
             </li>
             <li>
+              <NavLink to="/datasets">Datasets</NavLink>
+            </li>
+            <li>
               <a href="https://dla-actigraphy.herokuapp.com/data-deposits/4">
-                Datasets
+                DLA Actigraphy
               </a>
             </li>
           </ul>

@@ -28,7 +28,9 @@ function Study({ project, onSubmit }) {
     navigate("/");
   };
 
-  const handleError = (errors) => {};
+  const handleError = (errors) => {
+    console.error(errors);
+  };
 
   const handleChange = (event) => {
     const formData = event.formData;

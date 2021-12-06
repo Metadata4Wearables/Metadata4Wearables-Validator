@@ -10,7 +10,7 @@ test("user can download after submitting a study with a valid name", async () =>
   const studyLink = screen.getByRole("link", { name: /study/i });
   userEvent.click(studyLink);
 
-  const nameField = screen.getByRole("textbox", { name: /name/i });
+  const nameField = screen.getByRole("textbox", { name: /^name/i });
   userEvent.type(nameField, "Study Name");
 
   const clinicalTrial = screen.getByRole("radio", { name: /yes/i });
@@ -29,7 +29,7 @@ test("user can download after submitting a study with a valid name", async () =>
   const sample = screen.getByRole("textbox", { name: /sample/i });
   userEvent.type(sample, "Sample");
 
-  const description = screen.getByRole("textbox", { name: /description/i });
+  const description = screen.getByRole("textbox", { name: /^description/i });
   userEvent.type(description, "Description");
 
   const keywordsGroup = screen.getByRole("group", { name: /keywords/i });
@@ -37,6 +37,34 @@ test("user can download after submitting a study with a valid name", async () =>
   userEvent.type(keywordInputs[0], "Keyword 1");
   userEvent.type(keywordInputs[1], "Keyword 2");
   userEvent.type(keywordInputs[2], "Keyword 3");
+
+  const groupName = screen.queryByRole("textbox", {
+    name: /group name/i,
+  });
+  userEvent.type(groupName, "Group name");
+
+  const groupDescription = screen.queryByRole("textbox", {
+    name: /group description/i,
+  });
+  userEvent.type(groupDescription, "Group description");
+
+  const groupLabel = screen.queryByRole("spinbutton", {
+    name: /group label/i,
+  });
+  userEvent.type(groupLabel, "1");
+
+  const groupSize = screen.queryByRole("spinbutton", {
+    name: /group size/i,
+  });
+  userEvent.type(groupSize, "2");
+
+  const groupInclusionCriteria = screen.getByRole("group", {
+    name: /inclusion criteria/i,
+  });
+  const groupInclusionCriteriaInputs = within(
+    groupInclusionCriteria
+  ).queryAllByRole("textbox");
+  userEvent.type(groupInclusionCriteriaInputs[0], "Inclusion criteria");
 
   const submitButton = screen.getByRole("button", { name: /submit/i });
   userEvent.click(submitButton);

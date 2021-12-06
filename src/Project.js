@@ -50,15 +50,19 @@ const Project = ({ project, onLoad }) => {
         });
       }
 
-      const projectResponse = await octokit.request(
-        "GET /repos/{owner}/{repo}/contents/{path}",
-        {
-          owner: ghUsername,
-          repo: repoName,
-          path: projectPath,
-        }
-      );
-      const sha = projectResponse.data.sha;
+      let sha;
+      try {
+        const projectResponse = await octokit.request(
+          "GET /repos/{owner}/{repo}/contents/{path}",
+          {
+            owner: ghUsername,
+            repo: repoName,
+            path: projectPath,
+          }
+        );
+        sha = projectResponse.data.sha;
+      } catch (e) {}
+
       const response = await octokit.request(
         "PUT /repos/{owner}/{repo}/contents/{path}",
         {

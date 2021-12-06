@@ -1,0 +1,9 @@
+#! /bin/bash
+
+schema=(event participant study)
+for i in ${schema[@]} ; do
+  echo "Updating $i.json"
+  curl --silent "https://raw.githubusercontent.com/cdsig/CDSIG-Schema/main/$i.json" > src/schema/$i.json
+done
+
+npx prettier -w src/schema/*.json

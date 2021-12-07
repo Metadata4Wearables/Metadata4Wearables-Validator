@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
 import studySchema from "./schema/study.json";
 import md5 from "md5";
-
-delete studySchema["$schema"];
 delete studySchema.properties.contributors;
 
 const uiSchema = {

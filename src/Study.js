@@ -5,9 +5,6 @@ import studySchema from "./schema/study.json";
 import md5 from "md5";
 
 delete studySchema["$schema"];
-delete studySchema.properties.prereg_doi;
-delete studySchema.properties.sample_groups;
-delete studySchema.properties.intervention;
 delete studySchema.properties.contributors;
 
 const uiSchema = {

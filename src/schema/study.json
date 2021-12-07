@@ -3,6 +3,7 @@
   "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/study.json",
   "$defs": {
     "group": {
+      "title": "Group",
       "type": "object",
       "properties": {
         "name": {

@@ -1,0 +1,15 @@
+#! /usr/bin/env node
+
+const $RefParser = require("@apidevtools/json-schema-ref-parser");
+
+process.stdin.on('data', data => {
+  const schema = JSON.parse(data);
+  $RefParser.dereference(schema, (err, schema) => {
+    if (err) {
+      console.error("Error dereferencing schema:");
+      console.error(err);
+    } else {
+      process.stdout.write(JSON.stringify(schema));
+    }
+  });
+});

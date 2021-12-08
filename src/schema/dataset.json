@@ -48,7 +48,49 @@
       "title": "Contributors",
       "type": "array",
       "items": {
-        "$ref": "https://raw.githubusercontent.com/cdsig/CDSIG-Schema/main/person.json"
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/person.json",
+        "title": "Base schema for contributors",
+        "description": "Role and contact information about a person.",
+        "required": ["name", "role", "institution"],
+        "type": "object",
+        "properties": {
+          "name": { "title": "Name", "type": "string" },
+          "role": {
+            "title": "Role",
+            "description": "Role ID(s) according to the Contributor Role Ontology (https://www.ebi.ac.uk/ols/ontologies/cro)",
+            "type": "array",
+            "items": {
+              "title": "Role ID",
+              "description": "Role ID",
+              "type": "string",
+              "pattern": "^((CRO_[0-9]{7})|(CREDIT_[0-9]{8}))$"
+            },
+            "minItems": 1
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "idn-email"
+          },
+          "orcid": {
+            "title": "ORCID identifier",
+            "description": "ORCID identifier",
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9|X]$"
+          },
+          "institution": {
+            "title": "Institution",
+            "type": "object",
+            "properties": {
+              "name": { "title": "Name", "type": "string" },
+              "street_address": { "title": "Street address", "type": "string" },
+              "city": { "title": "City", "type": "string" },
+              "country": { "title": "Country", "type": "string" }
+            },
+            "required": ["name", "country"]
+          }
+        }
       }
     },
     "data_set": {
@@ -76,18 +118,10 @@
           "dependencies": {
             "ongoing": {
               "oneOf": [
+                { "properties": { "ongoing": { "const": true } } },
                 {
                   "properties": {
-                    "ongoing": {
-                      "const": true
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "ongoing": {
-                      "const": false
-                    },
+                    "ongoing": { "const": false },
                     "stop_date_time": {
                       "title": "Stop datetime",
                       "description": "Stop date-time for the data collection",

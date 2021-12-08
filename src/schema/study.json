@@ -37,9 +37,7 @@
           "example": "",
           "type": "array",
           "minItems": 1,
-          "items": {
-            "type": "string"
-          }
+          "items": { "type": "string" }
         },
         "exclusion": {
           "title": "Exclusion criteria",
@@ -47,9 +45,7 @@
           "example": "",
           "type": "array",
           "minItems": 0,
-          "items": {
-            "type": "string"
-          }
+          "items": { "type": "string" }
         }
       },
       "required": ["name", "description", "label", "size", "inclusion"]
@@ -107,7 +103,52 @@
       "type": "array",
       "minItems": 1,
       "items": {
-        "$ref": "#/$defs/group"
+        "title": "Group",
+        "type": "object",
+        "properties": {
+          "name": {
+            "title": "Group name",
+            "description": "Name of group.",
+            "example": "ACHM patients",
+            "type": "string"
+          },
+          "description": {
+            "title": "Group description",
+            "description": "Description of sample group",
+            "example": "",
+            "type": "string"
+          },
+          "label": {
+            "title": "Group label",
+            "description": "Label of sample group",
+            "example": 0,
+            "type": "integer"
+          },
+          "size": {
+            "title": "Group size",
+            "description": "Group size",
+            "example": 6,
+            "type": "integer",
+            "minimum": 1
+          },
+          "inclusion": {
+            "title": "Inclusion criteria",
+            "description": "Inclusion criteria for sample group, given as an array of strings",
+            "example": "",
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "exclusion": {
+            "title": "Exclusion criteria",
+            "description": "Exclusion criteria for sample group, given as an array of strings",
+            "example": "",
+            "type": "array",
+            "minItems": 0,
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["name", "description", "label", "size", "inclusion"]
       }
     },
     "intervention": {
@@ -122,9 +163,7 @@
       "example": ["actigraphy", "congenital achromatopsia", "circadian"],
       "type": "array",
       "minItems": 3,
-      "items": {
-        "type": "string"
-      }
+      "items": { "type": "string" }
     },
     "contributors": {
       "title": "Contributors",
@@ -132,25 +171,59 @@
       "type": "array",
       "minItems": 1,
       "items": {
-        "$ref": "https://raw.githubusercontent.com/cdsig/CDSIG-Schema/main/person.json"
+        "$schema": "http://json-schema.org/draft-07/schema",
+        "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/person.json",
+        "title": "Base schema for contributors",
+        "description": "Role and contact information about a person.",
+        "required": ["name", "role", "institution"],
+        "type": "object",
+        "properties": {
+          "name": { "title": "Name", "type": "string" },
+          "role": {
+            "title": "Role",
+            "description": "Role ID(s) according to the Contributor Role Ontology (https://www.ebi.ac.uk/ols/ontologies/cro)",
+            "type": "array",
+            "items": {
+              "title": "Role ID",
+              "description": "Role ID",
+              "type": "string",
+              "pattern": "^((CRO_[0-9]{7})|(CREDIT_[0-9]{8}))$"
+            },
+            "minItems": 1
+          },
+          "email": {
+            "title": "Email",
+            "type": "string",
+            "format": "idn-email"
+          },
+          "orcid": {
+            "title": "ORCID identifier",
+            "description": "ORCID identifier",
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9|X]$"
+          },
+          "institution": {
+            "title": "Institution",
+            "type": "object",
+            "properties": {
+              "name": { "title": "Name", "type": "string" },
+              "street_address": { "title": "Street address", "type": "string" },
+              "city": { "title": "City", "type": "string" },
+              "country": { "title": "Country", "type": "string" }
+            },
+            "required": ["name", "country"]
+          }
+        }
       }
     }
   },
   "dependencies": {
     "clinical_trial": {
       "oneOf": [
+        { "properties": { "clinical_trial": { "const": false } } },
         {
           "properties": {
-            "clinical_trial": {
-              "const": false
-            }
-          }
-        },
-        {
-          "properties": {
-            "clinical_trial": {
-              "const": true
-            },
+            "clinical_trial": { "const": true },
             "clinical_trial_id": {
               "title": "Clinical Trial ID",
               "description": "Clinical trial identifier as well as registry",

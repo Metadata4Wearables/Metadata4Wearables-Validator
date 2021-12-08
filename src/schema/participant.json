@@ -11,11 +11,7 @@
           "description": "Phenotype",
           "type": "string"
         },
-        "value": {
-          "title": "Value",
-          "description": "Value",
-          "type": "string"
-        }
+        "value": { "title": "Value", "description": "Value", "type": "string" }
       },
       "required": ["name", "value"]
     }
@@ -46,7 +42,21 @@
       "title": "Phenotypes",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/phenotype"
+        "type": "object",
+        "title": "Phenotype",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "description": "Phenotype",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "description": "Value",
+            "type": "string"
+          }
+        },
+        "required": ["name", "value"]
       }
     }
   },

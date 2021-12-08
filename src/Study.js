@@ -2,8 +2,11 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
 import studySchema from "./schema/study.json";
+import personSchema from "./schema/person.json";
 import md5 from "md5";
-delete studySchema.properties.contributors;
+
+studySchema["$defs"].person = personSchema;
+studySchema.properties.contributors.items["$ref"] = "#/$defs/person";
 
 const uiSchema = {
   "ui:order": ["name", "clinical_trial", "clinical_trial_id", "*"],

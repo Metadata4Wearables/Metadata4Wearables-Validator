@@ -12,7 +12,7 @@ test("user can download after submitting a study with a valid name", async () =>
   const studyLink = screen.getByRole("link", { name: /study/i });
   userEvent.click(studyLink);
 
-  const nameField = screen.getByRole("textbox", { name: /^name/i });
+  const nameField = document.getElementById("root_name");
   userEvent.type(nameField, "Study Name");
 
   const clinicalTrial = screen.getByRole("radio", { name: /yes/i });
@@ -67,6 +67,20 @@ test("user can download after submitting a study with a valid name", async () =>
     groupInclusionCriteria
   ).queryAllByRole("textbox");
   userEvent.type(groupInclusionCriteriaInputs[0], "Inclusion criteria");
+
+  const personName = document.getElementById("root_contributors_0_name");
+  userEvent.type(personName, "Person name");
+
+  const personRole = screen.getByRole("textbox", { name: /role id/i });
+  userEvent.type(personRole, "CRO_1234567");
+
+  const institutionName = document.getElementById(
+    "root_contributors_0_institution_name"
+  );
+  userEvent.type(institutionName, "Institution name");
+
+  const institutionCountry = screen.getByRole("textbox", { name: /country/i });
+  userEvent.type(institutionCountry, "Institution country");
 
   const submitButton = screen.getByRole("button", { name: /submit/i });
   userEvent.click(submitButton);

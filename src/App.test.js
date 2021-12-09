@@ -2,6 +2,8 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
 
+jest.setTimeout(10000);
+
 test("user can download after submitting a study with a valid name", async () => {
   global.URL.createObjectURL = jest.fn().mockReturnValue("https://example.com");
 

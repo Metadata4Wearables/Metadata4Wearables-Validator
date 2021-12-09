@@ -5,8 +5,7 @@ import studySchema from "./schema/study.json";
 import personSchema from "./schema/person.json";
 import md5 from "md5";
 
-studySchema["$defs"].person = personSchema;
-studySchema.properties.contributors.items["$ref"] = "#/$defs/person";
+studySchema.properties.contributors.items = personSchema;
 
 const uiSchema = {
   "ui:order": ["name", "clinical_trial", "clinical_trial_id", "*"],

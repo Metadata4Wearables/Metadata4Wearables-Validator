@@ -87,6 +87,7 @@ const Project = ({ project, onLoad }) => {
 
   const handleLoadFromGithub = async () => {
     setLoadingFromGitHub(true);
+    setGithubMessage("Loading");
 
     const gitHubToken = sessionStorage.getItem("gh-token");
     if (gitHubToken) {
@@ -119,6 +120,7 @@ const Project = ({ project, onLoad }) => {
         setGithubMessage(`GitHub repo not found: ${repoName}`);
       }
       setLoadingFromGitHub(false);
+      setGithubMessage();
     } else {
       const authenticator = new netlify({ site_id: siteId });
       authenticator.authenticate(

@@ -8,13 +8,10 @@ delete participantSchema["$schema"];
 
 const participantsSchema = {
   definitions: {
-    participant: participantSchema,
     phenotype: participantSchema.definitions.phenotype,
   },
   type: "array",
-  items: {
-    $ref: "#/definitions/participant",
-  },
+  items: participantSchema,
 };
 
 const uiSchema = {

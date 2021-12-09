@@ -7,14 +7,9 @@ import personSchema from "./schema/person.json";
 datasetSchema.properties.contributors.items = personSchema;
 
 const datasetsSchema = {
-  definitions: {
-    dataset: datasetSchema,
-  },
   title: "Datasets",
   type: "array",
-  items: {
-    $ref: "#/definitions/dataset",
-  },
+  items: datasetSchema,
 };
 
 const uiSchema = {

@@ -4,14 +4,9 @@ import Form from "@rjsf/core";
 import eventSchema from "./schema/event.json";
 
 const eventsSchema = {
-  definitions: {
-    event: eventSchema,
-  },
   title: "Events",
   type: "array",
-  items: {
-    $ref: "#/definitions/event",
-  },
+  items: eventSchema,
 };
 
 const uiSchema = {};

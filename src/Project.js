@@ -31,7 +31,7 @@ const Project = ({ project, onLoad }) => {
   };
 
   const saveToGitHub = async () => {
-    setGithubUrl("saving");
+    setGithubMessage("Saving");
 
     const gitHubToken = sessionStorage.getItem("gh-token");
     if (gitHubToken) {
@@ -76,6 +76,7 @@ const Project = ({ project, onLoad }) => {
         }
       );
       setGithubUrl(response.data.content.html_url);
+      setGithubMessage();
     } else {
       const authenticator = new netlify({ site_id: siteId });
       authenticator.authenticate(
@@ -138,6 +139,7 @@ const Project = ({ project, onLoad }) => {
             type="button"
             className="btn btn-default"
             onClick={saveToGitHub}
+            disabled={githubMessage === "Saving"}
           >
             <span
               className="glyphicon glyphicon-upload"
@@ -146,8 +148,6 @@ const Project = ({ project, onLoad }) => {
             Save to GitHub
           </button>
         );
-      case "saving":
-        return <p>Saving...</p>;
       default:
         return (
           <a href={githubUrl} target="_blank" rel="noreferrer">

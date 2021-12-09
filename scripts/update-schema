@@ -1,7 +1,7 @@
 #! /bin/bash
 
 timestamp=$(date +%s)
-schema=(dataset event participant study)
+schema=(dataset device event participant study)
 for i in ${schema[@]} ; do
   echo "Updating $i.json"
   curl --silent -H"If-None-Match: $timestamp" "https://raw.githubusercontent.com/cdsig/CDSIG-Schema/freerange-updates/$i.json" > src/schema/original/$i.json

@@ -1,0 +1,602 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/device.json",
+  "title": "Acquisition device",
+  "description": "Information about the data acquisition device",
+  "type": "object",
+  "properties": {
+    "uuid": {
+      "title": "UUID",
+      "description": "MD5 hash generated from the `name` field.",
+      "example": "9b4cef4132e84329bc38dda4b2fa3f5b",
+      "type": "string"
+    },
+    "manufacturer": {
+      "title": "Manufacturer",
+      "description": "Manufacturer of the device",
+      "example": "",
+      "type": "string"
+    },
+    "model": {
+      "title": "Model",
+      "description": "Model of the device",
+      "example": "",
+      "type": "string"
+    },
+    "serial_number": {
+      "title": "Serial number",
+      "description": "Serial number of the device",
+      "example": "",
+      "type": "string"
+    },
+    "device_sensors": {
+      "title": "Device sensors",
+      "description": "Sensors included in the device",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "device_sensor_internal_id": {
+            "title": "Internal ID",
+            "description": "Internal ID of the sensor",
+            "example": "1",
+            "type": "number"
+          },
+          "device_sensor_name": {
+            "title": "Name",
+            "description": "Name of the sensor",
+            "example": "Motion sensor",
+            "type": "string"
+          },
+          "device_sensor_category": {
+            "title": "Category",
+            "description": "Category of data acquired by the sensor",
+            "enum": ["motion", "light"]
+          }
+        },
+        "required": [
+          "device_sensor_internal_id",
+          "device_sensor_name",
+          "device_sensor_category"
+        ],
+        "dependencies": {
+          "device_sensor_category": {
+            "oneOf": [
+              {
+                "properties": {
+                  "device_sensor_category": { "enum": ["motion"] },
+                  "sensor": {
+                    "$schema": "http://json-schema.org/draft-07/schema",
+                    "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/sensor_motion.json",
+                    "definitions": {
+                      "filter": {
+                        "title": "Filter",
+                        "description": "Description of the filters applied to the acquired data",
+                        "type": "object",
+                        "properties": {
+                          "filter_type": {
+                            "title": "Type",
+                            "description": "Type of filter",
+                            "enum": ["low-pass", "band-pass", "high-pass"]
+                          },
+                          "filter_order": {
+                            "title": "Order",
+                            "description": "Order of filter",
+                            "type": "integer"
+                          },
+                          "filter_boundary": {
+                            "title": "Boundary",
+                            "description": "Frequency settings of the filter",
+                            "type": "object",
+                            "properties": {
+                              "filter_boundary_lower": {
+                                "title": "Lower boundary",
+                                "description": "Lower boundary (Hz)",
+                                "type": "number"
+                              },
+                              "filter_boundary_upper": {
+                                "title": "Upper boundary",
+                                "description": "Upper boundary (Hz)",
+                                "type": "number"
+                              }
+                            },
+                            "additionalProperties": false,
+                            "minProperties": 1
+                          }
+                        },
+                        "required": ["filter_type", "filter_boundary"]
+                      },
+                      "channel": {
+                        "title": "Channel",
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "title": "Name",
+                            "description": "Name of the channel",
+                            "type": "string"
+                          },
+                          "description": {
+                            "title": "Description",
+                            "description": "Description of the channel",
+                            "type": "string"
+                          },
+                          "filters": {
+                            "title": "Filters",
+                            "type": "array",
+                            "items": {
+                              "title": "Filter",
+                              "description": "Description of the filters applied to the acquired data",
+                              "type": "object",
+                              "properties": {
+                                "filter_type": {
+                                  "title": "Type",
+                                  "description": "Type of filter",
+                                  "enum": ["low-pass", "band-pass", "high-pass"]
+                                },
+                                "filter_order": {
+                                  "title": "Order",
+                                  "description": "Order of filter",
+                                  "type": "integer"
+                                },
+                                "filter_boundary": {
+                                  "title": "Boundary",
+                                  "description": "Frequency settings of the filter",
+                                  "type": "object",
+                                  "properties": {
+                                    "filter_boundary_lower": {
+                                      "title": "Lower boundary",
+                                      "description": "Lower boundary (Hz)",
+                                      "type": "number"
+                                    },
+                                    "filter_boundary_upper": {
+                                      "title": "Upper boundary",
+                                      "description": "Upper boundary (Hz)",
+                                      "type": "number"
+                                    }
+                                  },
+                                  "additionalProperties": false,
+                                  "minProperties": 1
+                                }
+                              },
+                              "required": ["filter_type", "filter_boundary"]
+                            }
+                          },
+                          "range": {
+                            "title": "Range",
+                            "description": "Range of acquisition",
+                            "type": "object",
+                            "properties": {
+                              "range_value_min": {
+                                "title": "Minimum",
+                                "type": "number"
+                              },
+                              "range_value_max": {
+                                "title": "Maximum",
+                                "type": "number"
+                              },
+                              "range_unit": {
+                                "title": "Unit",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "range_value_min",
+                              "range_value_max",
+                              "range_unit"
+                            ]
+                          },
+                          "resolution": {
+                            "title": "Resolution",
+                            "type": "object",
+                            "properties": {
+                              "resolution_value": {
+                                "title": "Value",
+                                "type": "number"
+                              },
+                              "resolution_unit": {
+                                "title": "Unit",
+                                "type": "string"
+                              }
+                            },
+                            "required": ["resolution_value", "resolution_unit"]
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "description",
+                          "range",
+                          "resolution"
+                        ]
+                      }
+                    },
+                    "title": "Motion sensor",
+                    "description": "Information about the motion sensor",
+                    "type": "object",
+                    "properties": {
+                      "sensor_motion_uuid": {
+                        "title": "UUID",
+                        "description": "MD5 hash generated from the `manufacturer+model` field.",
+                        "example": "9b4cef4132e84329bc38dda4b2fa3f5b",
+                        "type": "string"
+                      },
+                      "sensor_motion_manufacturer": {
+                        "title": "Manufacturer",
+                        "description": "Manufacturer of the motion sensor",
+                        "example": "",
+                        "type": "string"
+                      },
+                      "sensor_motion_type": {
+                        "title": "Type",
+                        "description": "Type of the motion sensor",
+                        "example": "accelerometer",
+                        "type": "string"
+                      },
+                      "sensor_motion_model": {
+                        "title": "Model",
+                        "description": "Model of the sensor",
+                        "example": "BMI160",
+                        "type": "string"
+                      },
+                      "sensor_motion_serial_number": {
+                        "title": "Serial number",
+                        "description": "Serial number of the motion sensor",
+                        "example": "ABCD-1234",
+                        "type": "string"
+                      },
+                      "sensor_motion_channels": {
+                        "title": "Channels",
+                        "type": "array",
+                        "items": {
+                          "title": "Channel",
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "title": "Name",
+                              "description": "Name of the channel",
+                              "type": "string"
+                            },
+                            "description": {
+                              "title": "Description",
+                              "description": "Description of the channel",
+                              "type": "string"
+                            },
+                            "filters": {
+                              "title": "Filters",
+                              "type": "array",
+                              "items": {
+                                "title": "Filter",
+                                "description": "Description of the filters applied to the acquired data",
+                                "type": "object",
+                                "properties": {
+                                  "filter_type": {
+                                    "title": "Type",
+                                    "description": "Type of filter",
+                                    "enum": [
+                                      "low-pass",
+                                      "band-pass",
+                                      "high-pass"
+                                    ]
+                                  },
+                                  "filter_order": {
+                                    "title": "Order",
+                                    "description": "Order of filter",
+                                    "type": "integer"
+                                  },
+                                  "filter_boundary": {
+                                    "title": "Boundary",
+                                    "description": "Frequency settings of the filter",
+                                    "type": "object",
+                                    "properties": {
+                                      "filter_boundary_lower": {
+                                        "title": "Lower boundary",
+                                        "description": "Lower boundary (Hz)",
+                                        "type": "number"
+                                      },
+                                      "filter_boundary_upper": {
+                                        "title": "Upper boundary",
+                                        "description": "Upper boundary (Hz)",
+                                        "type": "number"
+                                      }
+                                    },
+                                    "additionalProperties": false,
+                                    "minProperties": 1
+                                  }
+                                },
+                                "required": ["filter_type", "filter_boundary"]
+                              }
+                            },
+                            "range": {
+                              "title": "Range",
+                              "description": "Range of acquisition",
+                              "type": "object",
+                              "properties": {
+                                "range_value_min": {
+                                  "title": "Minimum",
+                                  "type": "number"
+                                },
+                                "range_value_max": {
+                                  "title": "Maximum",
+                                  "type": "number"
+                                },
+                                "range_unit": {
+                                  "title": "Unit",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "range_value_min",
+                                "range_value_max",
+                                "range_unit"
+                              ]
+                            },
+                            "resolution": {
+                              "title": "Resolution",
+                              "type": "object",
+                              "properties": {
+                                "resolution_value": {
+                                  "title": "Value",
+                                  "type": "number"
+                                },
+                                "resolution_unit": {
+                                  "title": "Unit",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "resolution_value",
+                                "resolution_unit"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "description",
+                            "range",
+                            "resolution"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "sensor_motion_uuid",
+                      "sensor_motion_manufacturer",
+                      "sensor_motion_type",
+                      "sensor_motion_model"
+                    ]
+                  }
+                },
+                "required": ["sensor"]
+              },
+              {
+                "properties": {
+                  "device_sensor_category": { "enum": ["light"] },
+                  "sensor": {
+                    "$schema": "http://json-schema.org/draft-07/schema",
+                    "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/sensor_light.json",
+                    "definitions": {
+                      "channel": {
+                        "title": "Channel",
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "title": "Name",
+                            "description": "Name of the channel",
+                            "type": "string"
+                          },
+                          "description": {
+                            "title": "Description",
+                            "description": "Description of the channel",
+                            "type": "string"
+                          },
+                          "spectral_sensitivity": {
+                            "title": "Spectral sensitivity",
+                            "type": "object",
+                            "properties": {
+                              "spectral_sensitivity_calibration_status": {
+                                "title": "Calibration status",
+                                "type": "boolean"
+                              },
+                              "spectral_sensitivity_calibration_type": {
+                                "title": "Calibration type",
+                                "type": "string"
+                              },
+                              "spectral_sensitivity_calibration_details": {
+                                "title": "Calibration details",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "spectral_sensitivity_calibration_status"
+                            ]
+                          },
+                          "linearity": {
+                            "type": "object",
+                            "title": "Linearity",
+                            "properties": {
+                              "linearity_calibration_status": {
+                                "title": "Calibration status",
+                                "type": "boolean"
+                              },
+                              "linearity_calibration_type": {
+                                "title": "Calibration type",
+                                "type": "string"
+                              },
+                              "linearity_calibration_details": {
+                                "title": "Calibration details",
+                                "type": "string"
+                              }
+                            },
+                            "required": ["linearity_calibration_status"]
+                          },
+                          "directional_response": {
+                            "type": "object",
+                            "title": "Directional response",
+                            "properties": {
+                              "directional_response_calibration_status": {
+                                "title": "Calibration status",
+                                "type": "boolean"
+                              },
+                              "directional_response_calibration_type": {
+                                "title": "Calibration type",
+                                "type": "string"
+                              },
+                              "directional_response_calibration_details": {
+                                "title": "Calibration details",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "directional_response_calibration_status"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "spectral_sensitivity",
+                          "linearity",
+                          "directional_response"
+                        ]
+                      }
+                    },
+                    "title": "Light sensor",
+                    "description": "Information about the light sensor",
+                    "type": "object",
+                    "properties": {
+                      "sensor_light_uuid": {
+                        "title": "UUID",
+                        "description": "MD5 hash generated from the `manufacturer+model` field.",
+                        "example": "9b4cef4132e84329bc38dda4b2fa3f5b",
+                        "type": "string"
+                      },
+                      "sensor_light_manufacturer": {
+                        "title": "Manufacturer",
+                        "description": "Manufacturer of the light sensor",
+                        "example": "Hamamatsu Photonics Co., Ltd",
+                        "type": "string"
+                      },
+                      "sensor_light_type": {
+                        "title": "Type",
+                        "description": "Type of the light sensor",
+                        "example": "spectrophotometer",
+                        "type": "string"
+                      },
+                      "sensor_light_model": {
+                        "title": "Model",
+                        "description": "Model of the light sensor",
+                        "example": "C12666MA",
+                        "type": "string"
+                      },
+                      "sensor_light_serial_number": {
+                        "title": "Serial number",
+                        "description": "Serial number of the light sensor",
+                        "example": "ABCD-1234",
+                        "type": "string"
+                      },
+                      "sensor_light_channels": {
+                        "title": "Light channels",
+                        "type": "array",
+                        "items": {
+                          "title": "Channel",
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "title": "Name",
+                              "description": "Name of the channel",
+                              "type": "string"
+                            },
+                            "description": {
+                              "title": "Description",
+                              "description": "Description of the channel",
+                              "type": "string"
+                            },
+                            "spectral_sensitivity": {
+                              "title": "Spectral sensitivity",
+                              "type": "object",
+                              "properties": {
+                                "spectral_sensitivity_calibration_status": {
+                                  "title": "Calibration status",
+                                  "type": "boolean"
+                                },
+                                "spectral_sensitivity_calibration_type": {
+                                  "title": "Calibration type",
+                                  "type": "string"
+                                },
+                                "spectral_sensitivity_calibration_details": {
+                                  "title": "Calibration details",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "spectral_sensitivity_calibration_status"
+                              ]
+                            },
+                            "linearity": {
+                              "type": "object",
+                              "title": "Linearity",
+                              "properties": {
+                                "linearity_calibration_status": {
+                                  "title": "Calibration status",
+                                  "type": "boolean"
+                                },
+                                "linearity_calibration_type": {
+                                  "title": "Calibration type",
+                                  "type": "string"
+                                },
+                                "linearity_calibration_details": {
+                                  "title": "Calibration details",
+                                  "type": "string"
+                                }
+                              },
+                              "required": ["linearity_calibration_status"]
+                            },
+                            "directional_response": {
+                              "type": "object",
+                              "title": "Directional response",
+                              "properties": {
+                                "directional_response_calibration_status": {
+                                  "title": "Calibration status",
+                                  "type": "boolean"
+                                },
+                                "directional_response_calibration_type": {
+                                  "title": "Calibration type",
+                                  "type": "string"
+                                },
+                                "directional_response_calibration_details": {
+                                  "title": "Calibration details",
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "directional_response_calibration_status"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "name",
+                            "spectral_sensitivity",
+                            "linearity",
+                            "directional_response"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "sensor_light_uuid",
+                      "sensor_light_manufacturer",
+                      "sensor_light_type",
+                      "sensor_light_model"
+                    ]
+                  }
+                },
+                "required": ["sensor"]
+              }
+            ]
+          }
+        }
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": ["uuid", "manufacturer", "model", "serial_number"]
+}

@@ -4,12 +4,13 @@ import Project from "./Project";
 import Study from "./Study";
 import Participants from "./Participants";
 import Datasets from "./Datasets";
+import Devices from "./Devices";
 import Events from "./Events";
 import React from "react";
 
 const App = () => {
   const [project, setProject] = React.useState({
-    study: { participants: [], datasets: [] },
+    study: { participants: [], datasets: [], devices: [] },
   });
 
   const handleProjectLoad = (project) => {
@@ -26,6 +27,10 @@ const App = () => {
 
   const handleSubmitDatasets = (datasets) => {
     setProject({ ...project, study: { ...project.study, datasets } });
+  };
+
+  const handleSubmitDevices = (devices) => {
+    setProject({ ...project, study: { ...project.study, devices } });
   };
 
   const handleSubmitEvents = (index, events) => {
@@ -71,6 +76,12 @@ const App = () => {
               path="/datasets"
               element={
                 <Datasets project={project} onSubmit={handleSubmitDatasets} />
+              }
+            />
+            <Route
+              path="/devices"
+              element={
+                <Devices project={project} onSubmit={handleSubmitDevices} />
               }
             />
             <Route

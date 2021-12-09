@@ -19,6 +19,7 @@ const objectUrl = (object) => {
 const Project = ({ project, onLoad }) => {
   const [githubMessage, setGithubMessage] = React.useState();
   const [githubUrl, setGithubUrl] = React.useState(null);
+  const [loadingFromGitHub, setLoadingFromGitHub] = React.useState(false);
 
   const createHandleAuth = (callback) => (error, data) => {
     if (error) {
@@ -85,6 +86,8 @@ const Project = ({ project, onLoad }) => {
   };
 
   const handleLoadFromGithub = async () => {
+    setLoadingFromGitHub(true);
+
     const gitHubToken = sessionStorage.getItem("gh-token");
     if (gitHubToken) {
       const octokit = new Octokit({ auth: gitHubToken });
@@ -115,6 +118,7 @@ const Project = ({ project, onLoad }) => {
       } catch (e) {
         setGithubMessage(`GitHub repo not found: ${repoName}`);
       }
+      setLoadingFromGitHub(false);
     } else {
       const authenticator = new netlify({ site_id: siteId });
       authenticator.authenticate(
@@ -168,6 +172,7 @@ const Project = ({ project, onLoad }) => {
           type="button"
           className="btn btn-default"
           onClick={handleLoadFromGithub}
+          disabled={loadingFromGitHub}
         >
           <span
             className="glyphicon glyphicon-download"

@@ -5,9 +5,6 @@ import participantSchema from "./schema/participant.json";
 import { Link } from "react-router-dom";
 
 const participantsSchema = {
-  definitions: {
-    phenotype: participantSchema.definitions.phenotype,
-  },
   type: "array",
   items: participantSchema,
 };

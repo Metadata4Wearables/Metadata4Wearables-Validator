@@ -4,8 +4,6 @@ import Form from "@rjsf/core";
 import participantSchema from "./schema/participant.json";
 import { Link } from "react-router-dom";
 
-delete participantSchema["$schema"];
-
 const participantsSchema = {
   definitions: {
     phenotype: participantSchema.definitions.phenotype,

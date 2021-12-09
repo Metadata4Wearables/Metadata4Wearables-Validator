@@ -5,6 +5,7 @@ import participantSchema from "./schema/participant.json";
 import { Link } from "react-router-dom";
 
 const participantsSchema = {
+  title: "Participants",
   type: "array",
   items: participantSchema,
 };

@@ -2,11 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
 import datasetSchema from "./schema/dataset.json";
+import personSchema from "./schema/person.json";
+
+datasetSchema.properties.contributors.items = personSchema;
 
 const datasetsSchema = {
   definitions: {
     dataset: datasetSchema,
-    person: datasetSchema.definitions.person,
   },
   title: "Datasets",
   type: "array",

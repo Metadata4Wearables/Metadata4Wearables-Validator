@@ -24,7 +24,7 @@ const Project = ({ project, onLoad }) => {
     if (error) {
       console.log(error);
     } else {
-      localStorage.setItem("gh-token", data.token);
+      sessionStorage.setItem("gh-token", data.token);
       callback();
     }
   };
@@ -32,7 +32,7 @@ const Project = ({ project, onLoad }) => {
   const saveToGitHub = async () => {
     setGithubUrl("saving");
 
-    const gitHubToken = localStorage.getItem("gh-token");
+    const gitHubToken = sessionStorage.getItem("gh-token");
     if (gitHubToken) {
       const octokit = new Octokit({ auth: gitHubToken });
       const ghUser = await octokit.request("GET /user");
@@ -85,7 +85,7 @@ const Project = ({ project, onLoad }) => {
   };
 
   const handleLoadFromGithub = async () => {
-    const gitHubToken = localStorage.getItem("gh-token");
+    const gitHubToken = sessionStorage.getItem("gh-token");
     if (gitHubToken) {
       const octokit = new Octokit({ auth: gitHubToken });
       const ghUser = await octokit.request("GET /user");

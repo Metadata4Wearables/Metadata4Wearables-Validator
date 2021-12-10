@@ -16,10 +16,15 @@ const objectUrl = (object) => {
   return URL.createObjectURL(blob);
 };
 
+const gitHubStates = {
+  loading: "Loading",
+  saving: "Saving",
+};
+
 const Project = ({ project, onLoad }) => {
+  const [gitHubState, setGitHubState] = React.useState();
   const [githubMessage, setGithubMessage] = React.useState();
   const [githubUrl, setGithubUrl] = React.useState(null);
-  const [loadingFromGitHub, setLoadingFromGitHub] = React.useState(false);
 
   const createHandleAuth = (callback) => (error, data) => {
     if (error) {
@@ -31,7 +36,7 @@ const Project = ({ project, onLoad }) => {
   };
 
   const saveToGitHub = async () => {
-    setGithubMessage("Saving");
+    setGitHubState(gitHubStates.saving);
 
     const gitHubToken = sessionStorage.getItem("gh-token");
     if (gitHubToken) {
@@ -76,7 +81,7 @@ const Project = ({ project, onLoad }) => {
         }
       );
       setGithubUrl(response.data.content.html_url);
-      setGithubMessage();
+      setGitHubState();
     } else {
       const authenticator = new netlify({ site_id: siteId });
       authenticator.authenticate(
@@ -87,8 +92,7 @@ const Project = ({ project, onLoad }) => {
   };
 
   const handleLoadFromGithub = async () => {
-    setLoadingFromGitHub(true);
-    setGithubMessage("Loading");
+    setGitHubState(gitHubStates.loading);
 
     const gitHubToken = sessionStorage.getItem("gh-token");
     if (gitHubToken) {
@@ -120,8 +124,7 @@ const Project = ({ project, onLoad }) => {
       } catch (e) {
         setGithubMessage(`GitHub repo not found: ${repoName}`);
       }
-      setLoadingFromGitHub(false);
-      setGithubMessage();
+      setGitHubState();
     } else {
       const authenticator = new netlify({ site_id: siteId });
       authenticator.authenticate(
@@ -139,7 +142,7 @@ const Project = ({ project, onLoad }) => {
             type="button"
             className="btn btn-default"
             onClick={saveToGitHub}
-            disabled={githubMessage === "Saving"}
+            disabled={gitHubState}
           >
             <span
               className="glyphicon glyphicon-upload"
@@ -174,7 +177,7 @@ const Project = ({ project, onLoad }) => {
           type="button"
           className="btn btn-default"
           onClick={handleLoadFromGithub}
-          disabled={loadingFromGitHub}
+          disabled={gitHubState}
         >
           <span
             className="glyphicon glyphicon-download"
@@ -184,9 +187,11 @@ const Project = ({ project, onLoad }) => {
         </button>{" "}
         {saveToGitHubButton()}
       </div>
-      {githubMessage && (
+      {(gitHubState || githubMessage) && (
         <div className="row">
-          <p className="text-warning">GitHub status: {githubMessage}</p>
+          <p className="text-warning">
+            GitHub status: {gitHubState || githubMessage}
+          </p>
         </div>
       )}
     </>

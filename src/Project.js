@@ -140,13 +140,14 @@ const Project = ({ project, onLoad }) => {
         <JSONPretty json={project} />
       </div>
       <div className="row">
-        <p className="text-right">
-          <a download={projectPath} href={objectUrl(project)}>
-            Download JSON
-          </a>
-        </p>
-      </div>
-      <div className="row">
+        <a
+          className="btn btn-default"
+          download={projectPath}
+          href={objectUrl(project)}
+        >
+          <span className="glyphicon glyphicon-save" aria-hidden="true"></span>{" "}
+          Download JSON
+        </a>{" "}
         <button
           type="button"
           className="btn btn-default"

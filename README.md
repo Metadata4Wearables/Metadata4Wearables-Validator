@@ -8,6 +8,8 @@ Install the [asdf-nodejs plugin](https://github.com/asdf-vm/asdf-nodejs/).
 
 Install node with `asdf install`.
 
+Install dependencies with `npm install`.
+
 # Update schema from [CDSIG-Schema repo](https://github.com/cdsig/CDSIG-Schema)
 
 Run `./script/update-schema` and commit the changes.

@@ -155,7 +155,9 @@ const Project = ({ project, onLoad }) => {
             className="glyphicon glyphicon-download"
             aria-hidden="true"
           ></span>{" "}
-          Load from GitHub
+          {gitHubState === gitHubStates.loading
+            ? gitHubState
+            : "Load from GitHub"}
         </button>{" "}
         <button
           type="button"
@@ -167,7 +169,7 @@ const Project = ({ project, onLoad }) => {
             className="glyphicon glyphicon-upload"
             aria-hidden="true"
           ></span>{" "}
-          Save to GitHub
+          {gitHubState === gitHubStates.saving ? gitHubState : "Save to GitHub"}
         </button>{" "}
         {githubUrl && (
           <a
@@ -180,11 +182,9 @@ const Project = ({ project, onLoad }) => {
           </a>
         )}
       </div>
-      {(gitHubState || githubMessage) && (
+      {githubMessage && (
         <div className="row">
-          <p className="text-warning">
-            GitHub status: {gitHubState || githubMessage}
-          </p>
+          <p className="text-warning">GitHub status: {githubMessage}</p>
         </div>
       )}
       <div className="row">

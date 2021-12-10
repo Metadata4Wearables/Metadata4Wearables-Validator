@@ -134,32 +134,6 @@ const Project = ({ project, onLoad }) => {
     }
   };
 
-  const saveToGitHubButton = () => {
-    switch (githubUrl) {
-      case null:
-        return (
-          <button
-            type="button"
-            className="btn btn-default"
-            onClick={saveToGitHub}
-            disabled={gitHubState}
-          >
-            <span
-              className="glyphicon glyphicon-upload"
-              aria-hidden="true"
-            ></span>{" "}
-            Save to GitHub
-          </button>
-        );
-      default:
-        return (
-          <a href={githubUrl} target="_blank" rel="noreferrer">
-            View on GitHub
-          </a>
-        );
-    }
-  };
-
   return (
     <>
       <div className="row">
@@ -185,7 +159,28 @@ const Project = ({ project, onLoad }) => {
           ></span>{" "}
           Load from GitHub
         </button>{" "}
-        {saveToGitHubButton()}
+        <button
+          type="button"
+          className="btn btn-default"
+          onClick={saveToGitHub}
+          disabled={gitHubState}
+        >
+          <span
+            className="glyphicon glyphicon-upload"
+            aria-hidden="true"
+          ></span>{" "}
+          Save to GitHub
+        </button>{" "}
+        {githubUrl && (
+          <a
+            className="btn btn-default"
+            href={githubUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            View on GitHub
+          </a>
+        )}
       </div>
       {(gitHubState || githubMessage) && (
         <div className="row">

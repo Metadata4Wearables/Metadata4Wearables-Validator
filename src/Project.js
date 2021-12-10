@@ -136,10 +136,7 @@ const Project = ({ project, onLoad }) => {
 
   return (
     <>
-      <div className="row">
-        <JSONPretty json={project} />
-      </div>
-      <div className="row">
+      <div className="row" style={{ marginBottom: "1em" }}>
         <a
           className="btn btn-default"
           download={projectPath}
@@ -190,6 +187,9 @@ const Project = ({ project, onLoad }) => {
           </p>
         </div>
       )}
+      <div className="row">
+        <JSONPretty json={project} />
+      </div>
     </>
   );
 };

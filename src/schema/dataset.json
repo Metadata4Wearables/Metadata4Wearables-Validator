@@ -57,7 +57,7 @@
         "properties": {
           "name": { "title": "Name", "type": "string" },
           "role": {
-            "title": "Role",
+            "title": "Roles",
             "description": "Role ID(s) according to the Contributor Role Ontology (https://www.ebi.ac.uk/ols/ontologies/cro)",
             "type": "array",
             "items": {

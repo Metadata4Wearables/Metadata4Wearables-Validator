@@ -394,7 +394,7 @@
                             "properties": {
                               "spectral_sensitivity_calibration_status": {
                                 "title": "Calibration status",
-                                "type": "boolean"
+                                "enum": ["Calibrated", "Uncalibrated"]
                               },
                               "spectral_sensitivity_calibration_type": {
                                 "title": "Calibration type",
@@ -415,7 +415,7 @@
                             "properties": {
                               "linearity_calibration_status": {
                                 "title": "Calibration status",
-                                "type": "boolean"
+                                "enum": ["Calibrated", "Uncalibrated"]
                               },
                               "linearity_calibration_type": {
                                 "title": "Calibration type",
@@ -434,7 +434,7 @@
                             "properties": {
                               "directional_response_calibration_status": {
                                 "title": "Calibration status",
-                                "type": "boolean"
+                                "enum": ["Calibrated", "Uncalibrated"]
                               },
                               "directional_response_calibration_type": {
                                 "title": "Calibration type",
@@ -515,7 +515,7 @@
                               "properties": {
                                 "spectral_sensitivity_calibration_status": {
                                   "title": "Calibration status",
-                                  "type": "boolean"
+                                  "enum": ["Calibrated", "Uncalibrated"]
                                 },
                                 "spectral_sensitivity_calibration_type": {
                                   "title": "Calibration type",
@@ -536,7 +536,7 @@
                               "properties": {
                                 "linearity_calibration_status": {
                                   "title": "Calibration status",
-                                  "type": "boolean"
+                                  "enum": ["Calibrated", "Uncalibrated"]
                                 },
                                 "linearity_calibration_type": {
                                   "title": "Calibration type",
@@ -555,7 +555,7 @@
                               "properties": {
                                 "directional_response_calibration_status": {
                                   "title": "Calibration status",
-                                  "type": "boolean"
+                                  "enum": ["Calibrated", "Uncalibrated"]
                                 },
                                 "directional_response_calibration_type": {
                                   "title": "Calibration type",

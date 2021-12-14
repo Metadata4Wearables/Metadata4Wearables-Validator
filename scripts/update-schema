@@ -8,7 +8,7 @@ else
 fi
 
 timestamp=$(date +%s)
-schema=(device event participant study)
+schema=(device event study)
 for i in ${schema[@]} ; do
   echo "Updating $i.json"
   curl --silent -H"If-None-Match: $timestamp" "https://raw.githubusercontent.com/cdsig/CDSIG-Schema/$branch/$i.json" > src/schema/original/$i.json

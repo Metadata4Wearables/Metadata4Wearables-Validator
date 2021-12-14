@@ -1,14 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
-import participantSchema from "./schema/participant.json";
+import studySchema from "./schema/study.json";
 import { Link } from "react-router-dom";
 
-const participantsSchema = {
-  title: "Participants",
-  type: "array",
-  items: participantSchema,
-};
+const participantsSchema = studySchema.properties.participants;
 
 const uiSchema = {
   "ui:options": { orderable: false },

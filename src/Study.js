@@ -6,7 +6,7 @@ import md5 from "md5";
 
 const studySchema = {
   ...studySchemaOrig,
-  properties: { ...studySchemaOrig.properties, datasets: {} },
+  properties: { ...studySchemaOrig.properties, datasets: {}, participants: {} },
 };
 
 const uiSchema = {

@@ -4,7 +4,16 @@ import Form from "@rjsf/core";
 import studySchema from "./schema/study.json";
 import { Link } from "react-router-dom";
 
-const participantsSchema = studySchema.properties.participants;
+const participantsSchema = {
+  ...studySchema.properties.participants,
+  items: {
+    ...studySchema.properties.participants.items,
+    properties: {
+      ...studySchema.properties.participants.items.properties,
+      events: {},
+    },
+  },
+};
 
 const uiSchema = {
   "ui:options": { orderable: false },

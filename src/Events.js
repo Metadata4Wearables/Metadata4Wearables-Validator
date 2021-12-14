@@ -1,13 +1,10 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Form from "@rjsf/core";
-import eventSchema from "./schema/event.json";
+import studySchema from "./schema/study.json";
 
-const eventsSchema = {
-  title: "Events",
-  type: "array",
-  items: eventSchema,
-};
+const eventsSchema =
+  studySchema.properties.participants.items.properties.events;
 
 const uiSchema = {};
 

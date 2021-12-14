@@ -1,13 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
-import datasetSchema from "./schema/dataset.json";
+import studySchema from "./schema/study.json";
 
-const datasetsSchema = {
-  title: "Datasets",
-  type: "array",
-  items: datasetSchema,
-};
+const datasetsSchema = studySchema.properties.datasets;
 
 const uiSchema = {
   "ui:options": { orderable: false },

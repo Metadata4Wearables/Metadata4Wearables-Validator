@@ -1,8 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
-import studySchema from "./schema/study.json";
+import studySchemaOrig from "./schema/study.json";
 import md5 from "md5";
+
+const studySchema = {
+  ...studySchemaOrig,
+  properties: { ...studySchemaOrig.properties, datasets: {} },
+};
 
 const uiSchema = {
   "ui:order": ["name", "clinical_trial", "clinical_trial_id", "*"],

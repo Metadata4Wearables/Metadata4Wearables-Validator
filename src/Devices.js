@@ -1,13 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
-import deviceSchema from "./schema/device.json";
+import studySchema from "./schema/study.json";
 
-const devicesSchema = {
-  title: "Devices",
-  type: "array",
-  items: deviceSchema,
-};
+const devicesSchema = studySchema.properties.devices;
 
 const uiSchema = {
   "ui:options": { orderable: false },

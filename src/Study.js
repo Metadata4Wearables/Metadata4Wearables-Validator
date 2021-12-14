@@ -6,7 +6,12 @@ import md5 from "md5";
 
 const studySchema = {
   ...studySchemaOrig,
-  properties: { ...studySchemaOrig.properties, datasets: {}, participants: {} },
+  properties: {
+    ...studySchemaOrig.properties,
+    datasets: {},
+    participants: {},
+    devices: {},
+  },
 };
 
 const uiSchema = {

@@ -327,6 +327,33 @@
               }
             }
           },
+          "acquisitions": {
+            "title": "Acquisitions",
+            "type": "array",
+            "items": {
+              "$schema": "http://json-schema.org/draft-07/schema",
+              "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/acquisition.json",
+              "title": "Acquisition-level metadata (within dataset)",
+              "description": "Acquisition",
+              "type": "object",
+              "properties": {
+                "sampling_rate": {
+                  "description": "Sampling rate",
+                  "type": "number"
+                },
+                "sampling_epoch": {
+                  "description": "Sampling epoch",
+                  "type": "number",
+                  "format": "date-time"
+                },
+                "comment": {
+                  "description": "Comment about an acquisition",
+                  "type": "string"
+                }
+              },
+              "required": ["sampling_rate", "sampling_epoch"]
+            }
+          },
           "data_set": {
             "title": "Dataset",
             "description": "Information about the data collection effort.",

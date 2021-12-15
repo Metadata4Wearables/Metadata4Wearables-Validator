@@ -232,6 +232,16 @@
             "example": "ACHM2019_Actigraphy_P01",
             "type": "string"
           },
+          "device_internal_id": {
+            "title": "Internal ID of Device",
+            "description": "Unique identifier of the device in this dataset",
+            "type": "string"
+          },
+          "participant_internal_id": {
+            "title": "Internal ID of Participant",
+            "description": "Unique identifier of the participant in this dataset",
+            "type": "string"
+          },
           "uuid": {
             "title": "UUID",
             "description": "MD5 hash generated from the `name` field",
@@ -402,10 +412,9 @@
             "example": "",
             "type": "string"
           },
-          "internalid": {
+          "internal_id": {
             "title": "Internal ID",
-            "description": "Internal ID",
-            "example": "9b4cef4132e84329bc38dda4b2fa3f5b",
+            "description": "Unique identifier for this participant",
             "type": "string"
           },
           "sex": {
@@ -484,7 +493,7 @@
             }
           }
         },
-        "required": ["age", "sex"]
+        "required": ["age", "internal_id", "sex"]
       }
     },
     "devices": {
@@ -497,10 +506,9 @@
         "description": "Information about the data acquisition device",
         "type": "object",
         "properties": {
-          "uuid": {
-            "title": "UUID",
-            "description": "MD5 hash generated from the `name` field.",
-            "example": "9b4cef4132e84329bc38dda4b2fa3f5b",
+          "internal_id": {
+            "title": "Internal ID",
+            "description": "Unique identifier for this device",
             "type": "string"
           },
           "manufacturer": {
@@ -1103,7 +1111,7 @@
             "uniqueItems": true
           }
         },
-        "required": ["uuid", "manufacturer", "model", "serial_number"]
+        "required": ["internal_id", "manufacturer", "model", "serial_number"]
       }
     }
   },

@@ -10,8 +10,8 @@ const uiSchema = {
   items: { phenotypes: { "ui:options": { orderable: false } } },
 };
 
-function Participants({ project, onSubmit }) {
-  const [formData, setFormData] = React.useState(project.study.participants);
+function Participants({ study, onSubmit }) {
+  const [formData, setFormData] = React.useState(study.participants);
   const navigate = useNavigate();
 
   const handleSubmit = ({ formData }, e) => {

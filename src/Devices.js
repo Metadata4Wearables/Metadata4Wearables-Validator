@@ -9,8 +9,8 @@ const uiSchema = {
   "ui:options": { orderable: false },
 };
 
-function Devices({ project, onSubmit }) {
-  const [formData, setFormData] = React.useState(project.study.devices);
+function Devices({ study, onSubmit }) {
+  const [formData, setFormData] = React.useState(study.devices);
   const navigate = useNavigate();
 
   const handleSubmit = ({ formData }, e) => {

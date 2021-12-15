@@ -9,8 +9,8 @@ const uiSchema = {
   "ui:options": { orderable: false },
 };
 
-function Datasets({ project, onSubmit }) {
-  const [formData, setFormData] = React.useState(project.study.datasets);
+function Datasets({ study, onSubmit }) {
+  const [formData, setFormData] = React.useState(study.datasets);
   const navigate = useNavigate();
 
   const handleSubmit = ({ formData }, e) => {

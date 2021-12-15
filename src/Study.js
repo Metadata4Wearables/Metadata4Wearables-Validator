@@ -23,8 +23,8 @@ const uiSchema = {
   keywords: { "ui:options": { orderable: false } },
 };
 
-function Study({ project, onSubmit }) {
-  const [formData, setFormData] = React.useState(project.study);
+function Study({ study, onSubmit }) {
+  const [formData, setFormData] = React.useState(study);
   const navigate = useNavigate();
 
   const handleSubmit = ({ formData }, e) => {

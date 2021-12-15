@@ -21,7 +21,7 @@ const gitHubStates = {
   saving: "Saving",
 };
 
-const Project = ({ project, onLoad }) => {
+const Project = ({ study, onLoad }) => {
   const [gitHubState, setGitHubState] = React.useState();
   const [githubMessage, setGithubMessage] = React.useState();
   const [githubUrl, setGithubUrl] = React.useState(null);
@@ -76,7 +76,7 @@ const Project = ({ project, onLoad }) => {
           repo: repoName,
           path: projectPath,
           message: `Save ${projectPath}`,
-          content: btoa(objectToJson(project)),
+          content: btoa(objectToJson(study)),
           sha: sha,
         }
       );
@@ -140,7 +140,7 @@ const Project = ({ project, onLoad }) => {
         <a
           className="btn btn-default"
           download={projectPath}
-          href={objectUrl(project)}
+          href={objectUrl(study)}
         >
           <span className="glyphicon glyphicon-save" aria-hidden="true"></span>{" "}
           Download JSON
@@ -188,7 +188,7 @@ const Project = ({ project, onLoad }) => {
         </div>
       )}
       <div className="row">
-        <JSONPretty json={project} />
+        <JSONPretty json={study} />
       </div>
     </>
   );

@@ -8,28 +8,30 @@ import Devices from "./Devices";
 import React from "react";
 
 const App = () => {
-  const [project, setProject] = React.useState({
-    study: { participants: [], datasets: [], devices: [] },
+  const [study, setStudy] = React.useState({
+    participants: [],
+    datasets: [],
+    devices: [],
   });
 
-  const handleProjectLoad = (project) => {
-    setProject(project);
+  const handleStudyLoad = (study) => {
+    setStudy(study);
   };
 
   const handleSubmitStudy = (study) => {
-    setProject({ ...project, study });
+    setStudy({ ...study });
   };
 
   const handleSubmitParticipants = (participants) => {
-    setProject({ ...project, study: { ...project.study, participants } });
+    setStudy({ ...study, participants });
   };
 
   const handleSubmitDatasets = (datasets) => {
-    setProject({ ...project, study: { ...project.study, datasets } });
+    setStudy({ ...study, datasets });
   };
 
   const handleSubmitDevices = (devices) => {
-    setProject({ ...project, study: { ...project.study, devices } });
+    setStudy({ ...study, devices });
   };
 
   return (
@@ -40,17 +42,17 @@ const App = () => {
           <Routes>
             <Route
               path="/"
-              element={<Project project={project} onLoad={handleProjectLoad} />}
+              element={<Project study={study} onLoad={handleStudyLoad} />}
             />
             <Route
               path="/study"
-              element={<Study project={project} onSubmit={handleSubmitStudy} />}
+              element={<Study study={study} onSubmit={handleSubmitStudy} />}
             />
             <Route
               path="/participants"
               element={
                 <Participants
-                  project={project}
+                  study={study}
                   onSubmit={handleSubmitParticipants}
                 />
               }
@@ -58,14 +60,12 @@ const App = () => {
             <Route
               path="/datasets"
               element={
-                <Datasets project={project} onSubmit={handleSubmitDatasets} />
+                <Datasets study={study} onSubmit={handleSubmitDatasets} />
               }
             />
             <Route
               path="/devices"
-              element={
-                <Devices project={project} onSubmit={handleSubmitDevices} />
-              }
+              element={<Devices study={study} onSubmit={handleSubmitDevices} />}
             />
           </Routes>
         </div>

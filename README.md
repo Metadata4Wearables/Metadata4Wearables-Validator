@@ -28,4 +28,4 @@ Run `./script/update-schema` and commit the changes.
 
 ## CI and deployment
 
-We're using GitHub Actions to run the tests and deploy to Netlify if they all pass. This is configured in .github/workflows/main.yml.
+We're using GitHub Actions to run the tests and deploy to Netlify if they all pass. This is configured in `.github/workflows/main.yml`.

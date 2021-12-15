@@ -5,6 +5,7 @@ import Study from "./Study";
 import Participants from "./Participants";
 import Datasets from "./Datasets";
 import Devices from "./Devices";
+import Validate from "./Validate";
 import React from "react";
 
 const App = () => {
@@ -67,6 +68,7 @@ const App = () => {
               path="/devices"
               element={<Devices study={study} onSubmit={handleSubmitDevices} />}
             />
+            <Route path="/validate" element={<Validate study={study} />} />
           </Routes>
         </div>
       </Router>

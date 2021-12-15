@@ -2,18 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "@rjsf/core";
 import studySchema from "./schema/study.json";
-import { Link } from "react-router-dom";
 
-const participantsSchema = {
-  ...studySchema.properties.participants,
-  items: {
-    ...studySchema.properties.participants.items,
-    properties: {
-      ...studySchema.properties.participants.items.properties,
-      events: {},
-    },
-  },
-};
+const participantsSchema = studySchema.properties.participants;
 
 const uiSchema = {
   "ui:options": { orderable: false },
@@ -39,27 +29,16 @@ function Participants({ project, onSubmit }) {
   };
 
   return (
-    <>
-      <ul>
-        {project.study.participants.map((participant, index) => (
-          <li key={index}>
-            <Link to={`/participants/${index}/events`}>
-              Participant {index} events
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <Form
-        noHtml5Validate
-        schema={participantsSchema}
-        formData={formData}
-        uiSchema={uiSchema}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        onError={handleError}
-        showErrorList={false}
-      />
-    </>
+    <Form
+      noHtml5Validate
+      schema={participantsSchema}
+      formData={formData}
+      uiSchema={uiSchema}
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+      onError={handleError}
+      showErrorList={false}
+    />
   );
 }
 

@@ -1,0 +1,32 @@
+#! /usr/bin/env node
+
+const fs = require('fs')
+const Ajv = require("ajv")
+const applyAjvFormats = require('ajv-formats-draft2019');
+
+let rawSchema;
+
+try {
+  rawSchema = fs.readFileSync('src/schema/study.json', 'utf-8')
+} catch (err) {
+  console.error("Error reading schema file")
+  return console.error(err);
+}
+
+const schema = JSON.parse(rawSchema);
+
+const ajv = new Ajv({allErrors: true})
+applyAjvFormats(ajv)
+
+const validate = ajv.compile(schema)
+
+process.stdin.on('data', (rawData) => {
+  const data = JSON.parse(rawData);
+
+  const valid = validate(data)
+  if (valid) {
+    console.log("Data validates against schema")
+  } else {
+    console.log(validate.errors)
+  }
+});

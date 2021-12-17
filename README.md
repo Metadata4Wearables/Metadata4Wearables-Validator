@@ -22,9 +22,19 @@ We're using [asdf](https://asdf-vm.com) to manage project dependencies.
 
 Run the tests with `npm test`.
 
-## Update schema from [CDSIG-Schema repo](https://github.com/cdsig/CDSIG-Schema)
+## Making changes to schema files
 
-Run `./script/update-schema` and commit the changes.
+The schema files live in the [CDSIG-Schema repo](https://github.com/cdsig/CDSIG-Schema). Use the following workflow to test changes to those schema files in this web authoring tool:
+
+1. Create a branch in the CDSIG-Schema repository, make your changes and push them to GitHub. Note that you might need to update any external `$ref` URLs so that they point to the schema files in your new branch.
+
+2. Create a branch in this repository.
+
+3. Run the `./scripts/update-schema` script and pass your CDSIG-Schema branch name as an argument (e.g. `./scripts/update-schema my-schema-branch-name`).
+
+4. Check the schema changes work as expected in the development server at http://localhost:3000.
+
+5. Once you're happy that everything is working as expected you can merge the changes in both repositories into main.
 
 ## CI and deployment
 

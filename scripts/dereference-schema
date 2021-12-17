@@ -1,5 +1,13 @@
 #! /usr/bin/env node
 
+// Reads a JSON schema file on STDIN and dereferences/inlines any
+// references to internal or external schema. The result is written
+// to STDOUT.
+//
+// Example:
+//
+// cat src/schema/original/study.json | ./scripts/dereference-schema
+
 const $RefParser = require("@apidevtools/json-schema-ref-parser");
 
 process.stdin.on('data', data => {

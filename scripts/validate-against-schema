@@ -1,5 +1,14 @@
 #! /usr/bin/env node
 
+// Reads a JSON document on STDIN and validates it against our Study schema.
+// Prints any validation errors to STDOUT.
+//
+// Example:
+//
+// cat data.json | ./scripts/validate-against-schema
+// or
+// echo {} | ./scripts/validate-against-schema
+
 const fs = require('fs')
 const Ajv = require("ajv")
 const applyAjvFormats = require('ajv-formats-draft2019');

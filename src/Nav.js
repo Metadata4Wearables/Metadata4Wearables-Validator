@@ -26,10 +26,6 @@ function Nav() {
             <li>
               <NavLink to="/validate">Validate</NavLink>
             </li>
-            <li>
-              <a href="https://dla-actigraphy.herokuapp.com/data-deposits/4">
-                DLA Actigraphy
-              </a>
             </li>
           </ul>
         </div>

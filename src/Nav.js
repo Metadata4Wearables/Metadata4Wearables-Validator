@@ -26,7 +26,6 @@ function Nav() {
             <li>
               <NavLink to="/validate">Validate</NavLink>
             </li>
-            </li>
           </ul>
         </div>
       </div>

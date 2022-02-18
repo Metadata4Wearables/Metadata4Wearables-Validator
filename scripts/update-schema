@@ -8,7 +8,7 @@ if [[ -n "$1" ]]
 then
   branch="$1"
 else
-  branch="freerange-updates"
+  branch="main"
 fi
 
 timestamp=$(date +%s)

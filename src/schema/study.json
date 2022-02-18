@@ -337,21 +337,423 @@
               "description": "Acquisition",
               "type": "object",
               "properties": {
-                "sampling_rate": {
-                  "description": "Sampling rate",
-                  "type": "number"
+                "device_internal_id": {
+                  "description": "Reference to the internal ID of the related device",
+                  "type": "string"
                 },
-                "sampling_epoch": {
-                  "description": "Sampling epoch",
-                  "type": "number",
-                  "format": "date-time"
+                "device_position": {
+                  "title": "Device position",
+                  "description": "Position of the acquisition device",
+                  "type": "object",
+                  "properties": {
+                    "location": {
+                      "title": "Location of the device",
+                      "description": "Anatomical location of the acquisition device",
+                      "example": "Wrist of the non-dominant hand",
+                      "type": "string"
+                    },
+                    "orientation": {
+                      "title": "Orientation of the device",
+                      "description": "Orientation of the acquisition device",
+                      "example": "z-axis pointing out of wrist",
+                      "type": "string"
+                    }
+                  },
+                  "required": ["location", "orientation"]
+                },
+                "device_sensors": {
+                  "title": "",
+                  "description": "Sensors included in the device",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "device_sensor_internal_id": {
+                        "title": "Internal ID",
+                        "description": "Internal ID of the sensor",
+                        "example": "1",
+                        "type": "number"
+                      },
+                      "device_sensor_category": {
+                        "title": "Category",
+                        "description": "Category of data acquired by the sensor",
+                        "enum": ["motion", "light"]
+                      }
+                    },
+                    "required": [
+                      "device_sensor_internal_id",
+                      "device_sensor_category"
+                    ],
+                    "dependencies": {
+                      "device_sensor_category": {
+                        "oneOf": [
+                          {
+                            "properties": {
+                              "device_sensor_category": { "enum": ["motion"] },
+                              "sensor": {
+                                "$schema": "http://json-schema.org/draft-07/schema",
+                                "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/sensor_motion_acq.json",
+                                "definitions": {
+                                  "calibration": {
+                                    "title": "Calibration",
+                                    "description": "Calibration factors",
+                                    "type": "object",
+                                    "properties": {
+                                      "calibration_channel": {
+                                        "title": "Sensor channel",
+                                        "description": "Sensor channel associated with the calibration",
+                                        "example": "x-axis",
+                                        "type": "string"
+                                      },
+                                      "calibration_applied": {
+                                        "description": "Calibration already applied to data",
+                                        "example": false,
+                                        "type": "boolean"
+                                      },
+                                      "calibration_offset": {
+                                        "title": "Calibration offset",
+                                        "example": -0.01,
+                                        "type": "number"
+                                      },
+                                      "calibration_gain": {
+                                        "title": "Calibration gain",
+                                        "example": 1.023,
+                                        "type": "number",
+                                        "minimum": 0
+                                      }
+                                    },
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "calibration_channel",
+                                      "calibration_applied",
+                                      "calibration_offset",
+                                      "calibration_gain"
+                                    ]
+                                  }
+                                },
+                                "title": "Motion sensor acquisition settings",
+                                "description": "Information about acquisition settings of the motion sensor",
+                                "type": "object",
+                                "properties": {
+                                  "sensor_motion_mode": {
+                                    "title": "Acquisition mode",
+                                    "description": "Acquisition mode(s). Mostly relevant for count-based devices",
+                                    "example": "For example, at least one of [PIM, TAT, ZCM, RAW]",
+                                    "type": "array",
+                                    "items": { "type": "string" },
+                                    "minItems": 1,
+                                    "uniqueItems": true
+                                  },
+                                  "sensor_motion_sampling": {
+                                    "title": "Sampling period",
+                                    "description": "Sampling period of the motion sensor",
+                                    "type": "object",
+                                    "properties": {
+                                      "sampling_value": {
+                                        "title": "Value",
+                                        "type": "number"
+                                      },
+                                      "sampling_unit": {
+                                        "title": "Unit",
+                                        "example": "s or Hz",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "sampling_value",
+                                      "sampling_unit"
+                                    ]
+                                  },
+                                  "sensor_motion_storing": {
+                                    "title": "Storing period",
+                                    "description": "In-memory storing period of the acquired data",
+                                    "type": "object",
+                                    "properties": {
+                                      "storing_value": {
+                                        "title": "Value",
+                                        "type": "number",
+                                        "minimum": 0
+                                      },
+                                      "storing_unit": {
+                                        "title": "Unit",
+                                        "example": "s or Hz",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "storing_value",
+                                      "storing_unit"
+                                    ]
+                                  },
+                                  "sensor_motion_range": {
+                                    "title": "Acceleration range",
+                                    "description": "Range of accelerations configured in the device for specific acquisition",
+                                    "type": "object",
+                                    "properties": {
+                                      "range_min_value": {
+                                        "title": "Value",
+                                        "type": "number"
+                                      },
+                                      "range_max_value": {
+                                        "title": "Value",
+                                        "type": "number"
+                                      },
+                                      "range_unit": {
+                                        "title": "Unit",
+                                        "example": "g",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "storing_value",
+                                      "storing_unit"
+                                    ]
+                                  },
+                                  "sensor_motion_calibration": {
+                                    "title": "Motion sensor calibration",
+                                    "description": "Calibration factors for the acquired data",
+                                    "type": "array",
+                                    "items": {
+                                      "title": "Calibration",
+                                      "description": "Calibration factors",
+                                      "type": "object",
+                                      "properties": {
+                                        "calibration_channel": {
+                                          "title": "Sensor channel",
+                                          "description": "Sensor channel associated with the calibration",
+                                          "example": "x-axis",
+                                          "type": "string"
+                                        },
+                                        "calibration_applied": {
+                                          "description": "Calibration already applied to data",
+                                          "example": false,
+                                          "type": "boolean"
+                                        },
+                                        "calibration_offset": {
+                                          "title": "Calibration offset",
+                                          "example": -0.01,
+                                          "type": "number"
+                                        },
+                                        "calibration_gain": {
+                                          "title": "Calibration gain",
+                                          "example": 1.023,
+                                          "type": "number",
+                                          "minimum": 0
+                                        }
+                                      },
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "calibration_channel",
+                                        "calibration_applied",
+                                        "calibration_offset",
+                                        "calibration_gain"
+                                      ]
+                                    },
+                                    "minItems": 1,
+                                    "uniqueItems": true
+                                  }
+                                },
+                                "required": [
+                                  "sensor_motion_mode",
+                                  "sensor_motion_sampling",
+                                  "sensor_motion_range"
+                                ]
+                              }
+                            },
+                            "required": ["sensor"]
+                          },
+                          {
+                            "properties": {
+                              "device_sensor_category": { "enum": ["light"] },
+                              "sensor": {
+                                "$schema": "http://json-schema.org/draft-07/schema",
+                                "$id": "https://github.com/cdsig/CDSIG-Schema/blob/main/sensor_light_acq.json",
+                                "definitions": {
+                                  "calibration": {
+                                    "title": "Calibration",
+                                    "description": "Information about sensor calibration",
+                                    "type": "object",
+                                    "properties": {
+                                      "calibration_channel": {
+                                        "title": "Sensor channel",
+                                        "description": "Sensor channel associated with the calibration",
+                                        "example": "R channel",
+                                        "type": "string"
+                                      },
+                                      "calibration_applied": {
+                                        "description": "Calibration already applied to data",
+                                        "example": false,
+                                        "type": "boolean"
+                                      },
+                                      "calibration_formula": {
+                                        "description": "Generic calibration formula",
+                                        "example": "param[0]*exp(-t/param[1]) + param[2]",
+                                        "type": "string",
+                                        "pattern": "(?:param\\[[0-9]+\\])+"
+                                      },
+                                      "calibration_factors": {
+                                        "description": "Calibration factors used in the generic formula",
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "calibration_factor_index": {
+                                              "title": "Index of the calibration factor",
+                                              "description": "Index associated to a calibration factor",
+                                              "example": 1,
+                                              "type": "integer",
+                                              "minimum": 0
+                                            },
+                                            "calibration_factor_value": {
+                                              "title": "Value of the calibration factor",
+                                              "description": "Value associated to a calibration factor",
+                                              "example": -3.14159,
+                                              "type": "number"
+                                            }
+                                          }
+                                        },
+                                        "minItems": 1,
+                                        "uniqueItems": true
+                                      }
+                                    },
+                                    "additionalProperties": false,
+                                    "required": [
+                                      "calibration_channel",
+                                      "calibration_applied"
+                                    ]
+                                  }
+                                },
+                                "title": "Light sensor acquisition settings",
+                                "description": "Information about acquisition settings of the light sensor",
+                                "type": "object",
+                                "properties": {
+                                  "sensor_light_sampling": {
+                                    "title": "Sampling period",
+                                    "description": "Sampling period of the light sensor",
+                                    "type": "object",
+                                    "properties": {
+                                      "sampling_value": {
+                                        "title": "Value",
+                                        "type": "number"
+                                      },
+                                      "sampling_unit": {
+                                        "title": "Unit",
+                                        "example": "s or Hz",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "sampling_value",
+                                      "sampling_unit"
+                                    ]
+                                  },
+                                  "sensor_light_range": {
+                                    "title": "Light intensity range",
+                                    "description": "Range of light intensities acquired by the device",
+                                    "type": "object",
+                                    "properties": {
+                                      "range_min_value": {
+                                        "title": "Value",
+                                        "type": "number"
+                                      },
+                                      "range_max_value": {
+                                        "title": "Value",
+                                        "type": "number"
+                                      },
+                                      "range_unit": {
+                                        "title": "Unit",
+                                        "example": "lux",
+                                        "type": "string"
+                                      },
+                                      "range_source": {
+                                        "title": "Source",
+                                        "example": "Manufacturer-provided",
+                                        "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "sensor_light_calibration": {
+                                    "title": "Light sensor calibration",
+                                    "description": "Calibration for the acquired data",
+                                    "type": "array",
+                                    "items": {
+                                      "title": "Calibration",
+                                      "description": "Information about sensor calibration",
+                                      "type": "object",
+                                      "properties": {
+                                        "calibration_channel": {
+                                          "title": "Sensor channel",
+                                          "description": "Sensor channel associated with the calibration",
+                                          "example": "R channel",
+                                          "type": "string"
+                                        },
+                                        "calibration_applied": {
+                                          "description": "Calibration already applied to data",
+                                          "example": false,
+                                          "type": "boolean"
+                                        },
+                                        "calibration_formula": {
+                                          "description": "Generic calibration formula",
+                                          "example": "param[0]*exp(-t/param[1]) + param[2]",
+                                          "type": "string",
+                                          "pattern": "(?:param\\[[0-9]+\\])+"
+                                        },
+                                        "calibration_factors": {
+                                          "description": "Calibration factors used in the generic formula",
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "calibration_factor_index": {
+                                                "title": "Index of the calibration factor",
+                                                "description": "Index associated to a calibration factor",
+                                                "example": 1,
+                                                "type": "integer",
+                                                "minimum": 0
+                                              },
+                                              "calibration_factor_value": {
+                                                "title": "Value of the calibration factor",
+                                                "description": "Value associated to a calibration factor",
+                                                "example": -3.14159,
+                                                "type": "number"
+                                              }
+                                            }
+                                          },
+                                          "minItems": 1,
+                                          "uniqueItems": true
+                                        }
+                                      },
+                                      "additionalProperties": false,
+                                      "required": [
+                                        "calibration_channel",
+                                        "calibration_applied"
+                                      ]
+                                    },
+                                    "minItems": 1,
+                                    "uniqueItems": true
+                                  }
+                                },
+                                "required": [
+                                  "sensor_light_sampling",
+                                  "sensor_light_range"
+                                ]
+                              }
+                            },
+                            "required": ["sensor"]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "minItems": 1,
+                  "uniqueItems": true
                 },
                 "comment": {
                   "description": "Comment about an acquisition",
                   "type": "string"
                 }
               },
-              "required": ["sampling_rate", "sampling_epoch"]
+              "required": ["device_internal_id", "device_position"]
             }
           },
           "data_set": {
@@ -433,22 +835,36 @@
         "description": "Information about the participant",
         "type": "object",
         "properties": {
-          "age": {
-            "title": "Age",
-            "description": "Age of the participant",
-            "example": "",
-            "type": "string"
-          },
           "internal_id": {
             "title": "Internal ID",
             "description": "Unique identifier for this participant",
             "type": "string"
+          },
+          "age": {
+            "title": "Age",
+            "description": "Age of the participant",
+            "example": "",
+            "type": "integer",
+            "minimum": 0
           },
           "sex": {
             "title": "Sex",
             "description": "Sex",
             "example": "",
             "type": "string"
+          },
+          "handedness": {
+            "title": "Handedness",
+            "description": "Handedness. Available values: Left, Right, Ambidexter or Not recorded",
+            "example": "Left",
+            "enum": ["Left", "Right", "Ambidexter", "Not recorded"]
+          },
+          "timezone": {
+            "title": "Time zone (UTC offset)",
+            "description": "UTC offset of the participant's time zone.",
+            "example": "-05:00",
+            "type": "string",
+            "pattern": "^[+-]([01][0-9]|2[0-4])(:[0-5][0-9])$"
           },
           "phenotypes": {
             "title": "Phenotypes",
@@ -520,7 +936,7 @@
             }
           }
         },
-        "required": ["age", "internal_id", "sex"]
+        "required": ["internal_id", "age", "sex"]
       }
     },
     "devices": {
@@ -554,6 +970,18 @@
             "title": "Serial number",
             "description": "Serial number of the device",
             "example": "",
+            "type": "string"
+          },
+          "harware_version": {
+            "title": "Hardware version",
+            "description": "Version number of the hardware",
+            "example": "",
+            "type": "string"
+          },
+          "memory_size": {
+            "title": "Memory size",
+            "description": "Size of the internal memory",
+            "example": "512MB",
             "type": "string"
           },
           "device_sensors": {

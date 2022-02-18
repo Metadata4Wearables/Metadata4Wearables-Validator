@@ -37,7 +37,7 @@ The schema files live in the [CDSIG-Schema repo](https://github.com/cdsig/CDSIG-
 4. Run the `./scripts/update-schema` script and pass your CDSIG-Schema branch name as an argument (e.g. `./scripts/update-schema my-schema-branch-name`).
 
 5. Check the schema changes work as expected in the development server at http://localhost:3000.
- 
+
 6. Once you're happy that everything is working as expected you can merge the changes in both repositories into main.
 
 ### Project structure

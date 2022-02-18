@@ -26,15 +26,17 @@ Run the tests with `npm test`.
 
 The schema files live in the [CDSIG-Schema repo](https://github.com/cdsig/CDSIG-Schema). Use the following workflow to test changes to those schema files in this web authoring tool:
 
-1. Create a branch in the CDSIG-Schema repository, make your changes and push them to GitHub. Note that you might need to update any external `$ref` URLs so that they point to the schema files in your new branch.
+1. Install `@apidevtools/json-schema-ref-parser` using `npm install @apidevtools/json-schema-ref-parser`.
 
-2. Create a branch in this repository.
+2. Create a branch in the CDSIG-Schema repository, make your changes and push them to GitHub. Note that you might need to update any external `$ref` URLs so that they point to the schema files in your new branch.
 
-3. Run the `./scripts/update-schema` script and pass your CDSIG-Schema branch name as an argument (e.g. `./scripts/update-schema my-schema-branch-name`).
+3. Create a branch in this repository.
 
-4. Check the schema changes work as expected in the development server at http://localhost:3000.
+4. Run the `./scripts/update-schema` script and pass your CDSIG-Schema branch name as an argument (e.g. `./scripts/update-schema my-schema-branch-name`).
 
-5. Once you're happy that everything is working as expected you can merge the changes in both repositories into main.
+5. Check the schema changes work as expected in the development server at http://localhost:3000.
+ 
+6. Once you're happy that everything is working as expected you can merge the changes in both repositories into main.
 
 ### Project structure
 

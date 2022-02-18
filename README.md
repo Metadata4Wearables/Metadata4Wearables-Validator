@@ -2,6 +2,8 @@
 
 A React app for authoring JSON documents that conform to the [Chronobiology Data Standards](https://github.com/cdsig/CDSIG-Schema). We're using the [React JSON Schema Forms library](https://github.com/rjsf-team/react-jsonschema-form) to dynamically generate forms based on the schema files. The app was bootstrapped with [Create React App](https://create-react-app.dev/).
 
+The app is deployed [here](https://vigorous-mccarthy-c8a76a.netlify.app/).
+
 [![Netlify Status](https://api.netlify.com/api/v1/badges/fceaa58e-7e67-43cc-9414-51b611c12820/deploy-status)](https://app.netlify.com/sites/vigorous-mccarthy-c8a76a/deploys)
 
 ## Development

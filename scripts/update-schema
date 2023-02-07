@@ -15,7 +15,7 @@ timestamp=$(date +%s)
 schema=(study)
 for i in ${schema[@]} ; do
   echo "Updating $i.json"
-  curl --silent -H"If-None-Match: $timestamp" "https://raw.githubusercontent.com/cdsig/CDSIG-Schema/$branch/$i.json" > src/schema/original/$i.json
+  curl --silent -H"If-None-Match: $timestamp" "https://raw.githubusercontent.com/metadata4wearables/metadata4wearables-Schema/$branch/$i.json" > src/schema/original/$i.json
   cat src/schema/original/$i.json | ./scripts/dereference-schema > src/schema/$i.json
 done
 
